@@ -120,3 +120,42 @@ Fornece um conjunto de ferramentas e uma interface padronizada que torna os cont
 - **2020**: Docker Hub introduz limitações de rate para pulls
 - **Atualidade**: Docker continua a ser a ferramenta mais popular para desenvolvimento com containers, embora alternativas como Podman ganhem terreno
 
+
+## Descomplicando Namespaces
+
+**Nosso primeiro container**
+
+```bash
+$ uname -a
+```
+
+**Instalar debootstrap**
+
+```bash
+$ apt update -y
+$ apt install debootsrap -y
+```
+
+**Usar debootstrap para criar base do container (Debian)**
+
+```bash
+$ debootstrap stable /debian http://deb.debian.org/debian
+```
+
+**Validar filesystem criado**
+
+```bash
+$ ls /debian
+<colocar output>
+```
+
+**Criar namespace**
+
+```bash
+$ unshare --help
+```
+
+```bash
+$ unshare --mount --pid --net --uts --ipc --map-root-user --user --fork chroot /debian bash
+```
+
