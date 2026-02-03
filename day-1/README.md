@@ -34,7 +34,7 @@ Um container é como uma “mini-caixa” isolada que contém:
 - muito mais leve que uma VM
 - muito mais rápido a arrancar
 
-  alavra-chave **ISOLAMENTO** de recursos.
+  Palavra-chave **ISOLAMENTO**.
 
 **Namespaces**
    - filesystem    : isolamento de filesystem
