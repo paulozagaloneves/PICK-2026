@@ -15,6 +15,7 @@
     - [**Limitar CPU**](#limitar-cpu)
     - [**Limitar memória**](#limitar-memória)
   - [Copy-On-Write](#copy-on-write)
+  - [Docker Internals](#docker-internals)
 
 ## O que é um container linux
 
@@ -506,3 +507,8 @@ O Copy-on-Write (CoW) é uma estratégia de otimização em computação que adi
 O **Docker** utiliza CoW para gerir camadas de imagens; múltiplos containers partilham a mesma imagem base, gravando apenas as suas alterações individuais numa camada fina no topo.
 
 ![Docker Image Layers](/images/Docker_Image_Layers.png)
+
+
+## Docker Internals
+
+![Docker Internals](/images/Docker_Internals.png)

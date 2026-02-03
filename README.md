@@ -12,3 +12,4 @@
 	- Limitar CPU
 	- Limitar memória
 - Copy-On-Write
+- Docker Internals
