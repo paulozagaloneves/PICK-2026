@@ -42,7 +42,7 @@ Um container é como uma “mini-caixa” isolada que contém:
    - network       : isolamento de rede
    - users         : isolamento de utilizadores
 
-**cgroups  **
+**cgroups**
 cgroups (control groups) é uma funcionalidade do kernel Linux que permite limitar, contabilizar e isolar o uso de recursos de hardware (CPU, memória, I/O de disco, rede) por grupos de processos.
 
 **Para que serve:**
