@@ -8,8 +8,8 @@
   - [Containers vs VMs](#containers-vs-vms)
   - [O que é o Docker](#o-que-é-o-docker)
   - [Descomplicando Namespaces](#descomplicando-namespaces)
-  - [Descomplicando CGroups](#descomplicando-cgroups)
-    - [**Instala CGroup tools**](#instala-cgroup-tools)
+  - [Descomplicando cgroups](#descomplicando-cgroups)
+    - [**Instala cgroup tools**](#instala-cgroup-tools)
     - [**Criar cgroups**](#criar-cgroups)
     - [**Associar um processo**](#associar-um-processo)
     - [**Limitar CPU**](#limitar-cpu)
@@ -279,9 +279,9 @@ $ lsns
 $
 ```
 
-## Descomplicando CGroups
+## Descomplicando cgroups
 
-### **Instala CGroup tools**
+### **Instala cgroup tools**
 
 ```bash
 $ sudo apt install cgroup-tools -y

@@ -5,8 +5,8 @@
 - Containers vs VMs
 - O que é o Docker
 - Descomplicando Namespaces
-- Descomplicando CGroups
-	- Instala CGroup tools
+- Descomplicando cgroups
+	- Instala cgroup tools
 	- Criar cgroups
 	- Associar um processo
 	- Limitar CPU
