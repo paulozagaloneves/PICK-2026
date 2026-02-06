@@ -20,3 +20,14 @@
 - Visualizando métricas e a utilização de recursos pelos containers
 - Visualizando e inspecionando imagens e containers
 - Criando um container Dettached e o Docker exec
+
+**[Day 2 - Imagens do Container](day-1/README.md)**
+  - O que são imagens de container ?
+  - O meu primeiro Dockerfile
+	- Exemplo de Dockerfile com Ubuntu e Nginx
+	- Build da imagem
+  - Conhecendo mais parâmetros no Dockerfile
+  - Dockerfile e Entrypoint
+  - Adicionando HEALTHCHECK ao nosso Dockerfile
+  - Descomplicando o meu Dockerfile
+  - Desafio prático

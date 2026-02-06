@@ -1,0 +1,15 @@
+FROM debian:13
+LABEL maintainer="email@email.com"
+LABEL version="1.0"
+LABEL description="Imagem com Nginx baseada em debian"
+LABEL org.opencontainers.image.source="https://github.com/paulozagaloneves/PICK-2026"
+LABEL org.opencontainers.image.licenses="MIT"
+RUN apt-get update && \
+	apt-get install -y nginx curl && \
+	apt-get clean && rm -rf /var/lib/apt/lists/*
+EXPOSE 80
+ENTRYPOINT ["nginx"]
+# parametros
+CMD ["-g", "daemon off;"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:80 || exit 1
