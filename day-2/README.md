@@ -262,9 +262,13 @@ $
 O comando COPY é recomendado para cópias simples de ficheiros locais, pois é mais previsível e seguro. O comando ADD oferece funcionalidades extra, como descompactar arquivos .tar e aceitar URLs, mas pode introduzir comportamentos inesperados. Por isso, prefira COPY, excepto quando realmente precisa das funcionalidades adicionais do ADD.
 
 **HEALTHCHECK**  - Permite definir um teste de saúde para o container, verificando periodicamente se a aplicação está a funcionar corretamente. Se o teste falhar, o Docker marca o container como 'unhealthy'.
-Exemplo:
+
+**Exemplo:**
+```
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:80 || exit 1
+```
+
 
 ```dockerfile
 FROM ubuntu:24.04
