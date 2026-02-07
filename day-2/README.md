@@ -22,6 +22,18 @@
   - [ENV e ARG no Dockerfile](#env-e-arg-no-dockerfile)
     - [ENV](#env)
     - [ARG](#arg)
+  - [Volumes](#volumes)
+  - [Pull, Push e Dockerhub](#pull-push-e-dockerhub)
+    - [**Pull**](#pull)
+    - [**Login**](#login)
+    - [**logout**](#logout)
+    - [**Tag**](#tag)
+  - [**push**](#push)
+  - [**search**](#search)
+  - [**history**](#history)
+  - [Registry privado](#registry-privado)
+  - [Glossário Dockerfile](#glossário-dockerfile)
+  - [Timeline: Criação de uma Imagem Docker](#timeline-criação-de-uma-imagem-docker)
 
 
 ## O que são imagens de container ?
@@ -973,7 +985,7 @@ CMD ["/app/hello"]
 ```
 
 
-`'`bash
+```bash
 $ docker image build -t hello:4.0 --build-arg GIROPOPS=PICK26 .
 [+] Building 3.5s (16/16) FINISHED                                                                                                   docker:default
  => [internal] load build definition from Dockerfile                                                                                           0.0s
@@ -1048,3 +1060,343 @@ $ docker container inspect 44813
 ...
 $
 ```
+
+
+
+## Volumes
+
+
+
+**VOLUME** Comando que expoe o volume para persistência de dados
+
+
+```dockerfile
+FROM golang:1.25 AS builder
+
+# Use bash as the default shell (Definir o shell a ser usado para os comandos RUN, CMD e ENTRYPOINT)
+# Note: The official Golang image uses /bin/sh by default, which is a symlink to dash in Debian-based images. 
+# If you want to use bash, you can specify it in the SHELL instruction.
+#SHELL ["/bin/bash"]
+
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.23.3
+COPY --from=builder /app/hello /app/hello
+ENV APP="hello_world"
+ARG GIROPOPS="strigus"
+ENV GIROPOPS=${GIROPOPS}
+
+RUN echo "Hello, ${GIROPOPS} - ${APP}!" 
+
+VOLUME /app/dados
+CMD ["/app/hello"]
+```
+
+
+```bash
+ docker image build -t hello:5.0 --build-arg GIROPOPS=PICK26 .
+[+] Building 3.0s (14/14) FINISHED                                                                                                  docker:default
+ => [internal] load build definition from Dockerfile                                                                                          0.0s
+ => => transferring dockerfile: 658B                                                                                                          0.0s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                                0.4s
+ => [internal] load metadata for docker.io/library/alpine:3.23.3                                                                              0.4s
+ => [internal] load .dockerignore                                                                                                             0.0s
+ => => transferring context: 2B                                                                                                               0.0s
+ => [builder 1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                  0.0s
+ => [stage-1 1/3] FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659                0.0s
+ => [internal] load build context                                                                                                             0.0s
+ => => transferring context: 158B                                                                                                             0.0s
+ => CACHED [builder 2/5] WORKDIR /app                                                                                                         0.0s
+ => [builder 3/5] COPY . ./                                                                                                                   0.0s
+ => [builder 4/5] RUN go mod init hello                                                                                                       0.2s
+ => [builder 5/5] RUN go build -o /app/hello                                                                                                  2.3s
+ => CACHED [stage-1 2/3] COPY --from=builder /app/hello /app/hello                                                                            0.0s
+ => CACHED [stage-1 3/3] RUN echo "Hello, PICK26 - hello_world!"                                                                              0.0s
+ => exporting to image                                                                                                                        0.0s
+ => => exporting layers                                                                                                                       0.0s
+ => => writing image sha256:0639bdb3956465c6d46e6e632a1131de0e1b5bfa85501921a620893ad5907e5a                                                  0.0s
+ => => naming to docker.io/library/hello:5.0                                                                                                  0.0s
+$
+$
+$ docker container run -ti hello:5.0                           
+Hello, Giropops - PICK 2026!
+$
+$ docker container ls -a            
+CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS                          PORTS                                                      NAMES
+a03e82cdce03   hello:5.0                       "/app/hello"             13 seconds ago   Exited (0) 12 seconds ago                                                                  practical_mayer
+44813cc8ce01   hello:4.0                       "/app/hello"             2 hours ago      Exited (0) 2 hours ago                                                                     blissful_ride
+a2503175b28b   hello:3.0                       "/app/hello"             2 hours ago      Exited (0) 2 hours ago                                                                     serene_khorana
+4b293e5368cb   hello:2.0                       "/app/hello"             3 hours ago      Exited (0) 3 hours ago                                                                     sad_engelbart
+49100a79a93a   6d102a2a4e40                    "/app/hello"             3 hours ago      Exited (0) 3 hours ago                                                                     zen_kilby
+be8166cc5587   hello:1.0                       "/app/hello"             15 hours ago     Exited (0) 15 hours ago                                                                    interesting_euler
+$
+$
+$ docker container inspect a03e8 
+[
+    {
+        "Id": "a03e82cdce03de6276dec3a8371ad4640a3e9bbf7108becddb051e1392588148",
+        "Created": "2026-02-07T10:52:47.81776371Z",
+        "Path": "/app/hello",
+        "Args": [],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-02-07T10:52:47.85004961Z",
+            "FinishedAt": "2026-02-07T10:52:47.950675972Z"
+        },
+...
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "6fcb39def34b73161803a687f66295ff9dee34b602bda6a04d542ef083ef82ad",
+                "Source": "/var/lib/docker/volumes/6fcb39def34b73161803a687f66295ff9dee34b602bda6a04d542ef083ef82ad/_data",
+                "Destination": "/app/dados",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+
+        "Config": {
+            "Hostname": "a03e82cdce03",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": true,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": true,
+            "OpenStdin": true,
+            "StdinOnce": true,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "APP=hello_world",
+                "GIROPOPS=PICK26"
+            ],
+            "Cmd": [
+                "/app/hello"
+            ],
+            "Image": "hello:5.0",
+            "Volumes": {
+                "/app/dados": {}
+            },
+            "WorkingDir": "/",
+            "Entrypoint": null,
+            "Labels": {}
+        },
+...
+]
+```
+
+## Pull, Push e Dockerhub
+
+### **Pull**
+O comando docker pull é utilizado para fazer download uma imagem de container do Docker Hub (ou de outro repositório de imagens) para o seu ambiente local. 
+Garante que tem a versão mais recente da imagem especificada, permitindo criar e executar containers a partir dela. 
+Por exemplo, docker pull nginx faz dowload a imagem oficial do Nginx.
+
+
+```bash
+$ docker pull nginx
+$
+```
+
+
+### **Login**
+
+Para efetuar login é necessáreio criar um token no DockerHub
+
+```bash
+$ docker login
+$
+```
+
+### **logout**
+
+```bash
+$ docker logout
+$
+```
+
+
+### **Tag**
+
+O comando docker tag é utilizado para atribuir um novo nome (tag) a uma imagem existente. Serve para organizar, versionar e preparar imagens para serem enviadas (push) para repositórios como o Docker Hub. 
+Para fazer push para o Docker Hub, a tag deve seguir o formato utilizador/nome:versao, por exemplo:
+
+docker tag hello:5.0 pauloneves/hello:5.0
+
+Depois, basta executar docker push pauloneves/hello:5.0 para publicar a imagem no seu repositório do Docker Hub.
+
+
+```bash
+$ docker tag hello:5.0 pauloneves/hello:5.0
+$
+$ docker image ls                          
+                                                                            i Info →   U  In Use
+IMAGE                           ID             DISK USAGE   CONTENT SIZE   EXTRA
+debian-nginx:1.0                820f6b8fb803        150MB             0B    U   
+hello:1.0                       fb05d4f6f072        880MB             0B    U   
+hello:2.0                       d59e57f5e581       10.7MB             0B    U   
+hello:3.0                       506988b1eb2c       10.7MB             0B    U   
+hello:4.0                       31def7600222       10.7MB             0B    U   
+hello:5.0                       0639bdb39564       10.7MB             0B    U   
+ibmcom/db2:latest               2ec8bf76e622       2.79GB             0B    U   
+linuxtips/cash-flow:1.0         280fa7eb9ed8        937MB             0B        
+linuxtips/cash-flow:2.0         4779a976b9c3       10.2MB             0B        
+linuxtips/cash-flow:3.0         516ea11b89b0       10.1MB             0B        
+meu-nginx:1.0                   83a80dbac42e        143MB             0B        
+meu-nginx:2.0                   2c8112c3c359       84.6MB             0B    U   
+meu-nginx:3.0                   fc118a38f845       84.6MB             0B        
+meu-nginx:4.0                   b03c4143223a        101MB             0B    U   
+meu-nginx:5.0                   867371674dad        104MB             0B    U   
+mysql:8                         4f1413420360        545MB             0B    U   
+mysql:8.0                       33037edcac9b        444MB             0B    U   
+nginx:latest                    5cdef4ac3335        161MB             0B        
+openzipkin/zipkin:latest        ad5bf93e3f50        165MB             0B    U   
+pauloneves/hello:5.0            0639bdb39564       10.7MB             0B    U   
+pauloneves/opsdeck-api:0.0.1    91c84a05acbc        380MB             0B        
+pauloneves/opsdeck-api:0.0.2    b3e2bcc720d9        380MB             0B        
+$
+```
+
+
+
+## **push**
+
+```bash
+$ docker push pauloneves/hello:5.0        
+The push refers to repository [docker.io/pauloneves/hello]
+91b879380df3: Pushed 
+deef140ca8fe: Pushed 
+989e799e6349: Mounted from library/alpine 
+5.0: digest: sha256:6d2de5d00ab8952c5c86006471a3638576f226e79a3bc0467c2dd48752850053 size: 945
+$
+```
+
+
+## **search**
+
+O comando docker search permite pesquisar imagens públicas disponíveis no Docker Hub diretamente a partir do terminal. 
+Mostra uma lista de imagens relacionadas ao termo pesquisado, incluindo nome, descrição, número de estrelas e se são oficiais ou automatizadas. 
+Por exemplo, docker search nginx mostra imagens relacionadas ao Nginx.
+
+```bash
+$ docker search pauloneves                  
+NAME                                  DESCRIPTION   STARS     OFFICIAL
+pauloneves/backoffice-backend                       0         
+pauloneves/bank-ms-account                          0         
+pauloneves/maven-azulzulu-11-alpine                 0         
+pauloneves/backoffice-frontend                      0         
+pauloneves/bank-ms-customer                         0         
+pauloneves/opsdeck-api                              0         
+pauloneves/docker101tutorial                        0         
+pauloneves/hello                                    0         
+pnevespi/pauloneves_node                            0 
+```
+
+
+## **history**
+
+O comando docker history mostra o histórico de uma imagem, detalhando as camadas que a compõem. 
+Apresenta informações como comandos usados, tamanho de cada camada, autor e data de criação. 
+É útil para analisar como uma imagem foi construída e identificar possíveis otimizações. 
+Por exemplo, docker history nginx exibe o histórico da imagem do Nginx.
+
+
+```bash
+ docker history pauloneves/hello:5.0   
+IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+0639bdb39564   7 hours ago   CMD ["/app/hello"]                              0B        buildkit.dockerfile.v0
+<missing>      7 hours ago   VOLUME [/app/dados]                             0B        buildkit.dockerfile.v0
+<missing>      7 hours ago   RUN |1 GIROPOPS=PICK26 /bin/sh -c echo "Hell…   0B        buildkit.dockerfile.v0
+<missing>      7 hours ago   ENV GIROPOPS=PICK26                             0B        buildkit.dockerfile.v0
+<missing>      7 hours ago   ARG GIROPOPS=PICK26                             0B        buildkit.dockerfile.v0
+<missing>      7 hours ago   ENV APP=hello_world                             0B        buildkit.dockerfile.v0
+<missing>      8 hours ago   COPY /app/hello /app/hello # buildkit           2.25MB    buildkit.dockerfile.v0
+<missing>      10 days ago   CMD ["/bin/sh"]                                 0B        buildkit.dockerfile.v0
+<missing>      10 days ago   ADD alpine-minirootfs-3.23.3-x86_64.tar.gz /…   8.44MB    buildkit.dockerfile.v0
+```
+
+
+## Registry privado
+
+O projeto Distribution é a implementação oficial do registro de imagens Docker, conhecido como Docker Registry. 
+Permite armazenar, gerir e distribuir imagens de containers de forma segura, tanto em ambientes públicos como privados. 
+É utilizado para criar repositórios próprios, facilitando o controlo e partilha de imagens entre equipas e sistemas.
+
+**GitHub:** https://github.com/docker/distribution
+
+
+```bash
+$ docker run -d -p 5000:5000 --restart always --name registry registry:3
+$
+$ docker pull ubuntu
+$ docker tag ubuntu localhost:5000/ubuntu
+$ docker push localhost:5000/ubuntu
+```
+
+
+## Glossário Dockerfile
+
+**ADD**
+Adiciona ficheiros, diretórios ou arquivos .tar ao sistema de ficheiros da imagem. Pode também fazer download de ficheiros remotos.
+
+**CMD**
+Define o comando padrão a ser executado quando o container é iniciado.
+
+**COPY**
+Copia ficheiros ou diretórios do contexto de build para a imagem de forma simples e direta.
+
+**ENTRYPOINT**
+Define o processo principal do container, que será sempre executado.
+
+**ENV**
+Define variáveis de ambiente na imagem.
+
+**EXPOSE**
+Indica que a aplicação escuta numa determinada porta, para fins de documentação.
+
+**FROM**
+Define a imagem base para o Dockerfile.
+
+**LABEL**
+Adiciona metadados à imagem, como versão, descrição, autor, etc.
+
+**MAINTAINER**
+Define o responsável pela imagem (depreciado, prefira LABEL).
+
+**RUN**
+Executa comandos durante o build da imagem, como instalar pacotes ou configurar ficheiros.
+
+**USER**
+Define o utilizador que será usado para executar comandos e processos no container.
+
+**VOLUME**
+Expõe um diretório como volume para persistência de dados.
+
+**WORKDIR**
+Define o diretório de trabalho para comandos RUN, CMD, ENTRYPOINT e COPY.
+
+
+
+
+## Timeline: Criação de uma Imagem Docker
+
+1. Criação do Dockerfile
+2. Build da Imagem
+3. Tag da imagem
+4. Push da imagem
+5. Verificação de Vulnerabilidades
+6. Assinatura com o Cosign
+

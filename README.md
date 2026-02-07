@@ -1,6 +1,5 @@
 # PICK-2026
 
-
 **[Day 1 - Containers](day-1/README.md)**
 - O que é um container linux
 - Containers vs VMs
@@ -31,3 +30,23 @@
   - Adicionando HEALTHCHECK ao nosso Dockerfile
   - Descomplicando o meu Dockerfile
   - Desafio prático
+  - Multistage
+	- Dockerfile sem multistage
+	- Dockerfile com multistage
+	- Descomplicando o meu Dockerfile com multistage
+  - ENV e ARG no Dockerfile
+	    - Comando ENV
+	    - Comando ARG
+  - Volumes
+  - Pull, Push e Dockerhub
+  - Pull
+  - Login
+  - Logout
+  - Tag
+  - Push
+  - Search
+  - History
+  - Registry privado
+  - Glossário Dockerfile
+  - Timeline: Criação de uma Imagem Docker
+  
