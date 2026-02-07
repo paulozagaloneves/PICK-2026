@@ -19,6 +19,9 @@
     - [Dockerfile sem multistage](#dockerfile-sem-multistage)
     - [Dockerfile com multistage](#dockerfile-com-multistage)
     - [Descomplicando o meu Dockerfile com multistage](#descomplicando-o-meu-dockerfile-com-multistage)
+  - [ENV e ARG no Dockerfile](#env-e-arg-no-dockerfile)
+    - [ENV](#env)
+    - [ARG](#arg)
 
 
 ## O que são imagens de container ?
@@ -786,4 +789,262 @@ CMD ["/app/hello"]
   - Processo de build limpo e fácil de manter.
   
 
-##ENV e ARG no Dockerfile
+## ENV e ARG no Dockerfile
+
+### ENV
+
+```dockerfile
+FROM golang:1.25 AS builder
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.23.3
+COPY --from=builder /app/hello /app/hello
+ENV app="hello_world"
+CMD ["/app/hello"]
+
+```
+
+
+**build**
+
+```bash
+$ docker image build -t hello:3.0 .
+[+] Building 3.5s (15/15) FINISHED                                                                                                   docker:default
+ => [internal] load build definition from Dockerfile                                                                                           0.0s
+ => => transferring dockerfile: 242B                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/alpine:3.23.3                                                                               0.9s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                                 0.9s
+ => [auth] library/alpine:pull token for registry-1.docker.io                                                                                  0.0s
+ => [auth] library/golang:pull token for registry-1.docker.io                                                                                  0.0s
+ => [internal] load .dockerignore                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                0.0s
+ => [builder 1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                   0.0s
+ => [stage-1 1/2] FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659                 0.0s
+ => [internal] load build context                                                                                                              0.0s
+ => => transferring context: 269B                                                                                                              0.0s
+ => CACHED [builder 2/5] WORKDIR /app                                                                                                          0.0s
+ => [builder 3/5] COPY . ./                                                                                                                    0.0s
+ => [builder 4/5] RUN go mod init hello                                                                                                        0.2s
+ => [builder 5/5] RUN go build -o /app/hello                                                                                                   2.2s
+ => CACHED [stage-1 2/2] COPY --from=builder /app/hello /app/hello                                                                             0.0s
+ => exporting to image                                                                                                                         0.0s
+ => => exporting layers                                                                                                                        0.0s
+ => => writing image sha256:506988b1eb2cec82675ed266eb0db81cfdb33edb92769e3669a100123730c97c                                                   0.0s
+ => => naming to docker.io/library/hello:3.0                                                                                                   0.0s
+ $
+ ```
+
+
+ ```bash
+$ docker container run hello:2.0   
+Hello, Giropops - PICK 2026!
+$ 
+$ docker container ls -a        
+CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS                          PORTS                                                      NAMES
+a2503175b28b   hello:3.0                       "/app/hello"             29 seconds ago   Exited (0) 28 seconds ago                                                                  serene_khorana
+4b293e5368cb   hello:2.0                       "/app/hello"             13 minutes ago   Exited (0) 13 minutes ago                                                                  sad_engelbart
+49100a79a93a   6d102a2a4e40                    "/app/hello"             20 minutes ago   Exited (0) 20 minutes ago                                                                  zen_kilby
+be8166cc5587   hello:1.0                       "/app/hello"             12 hours ago     Exited (0) 12 hours ago                                                                    interesting_euler
+$
+$ $ docker container inspect a25031      
+[
+    {
+        "Id": "a2503175b28b0fb2f25661c35b0543254f3bbd516c2ee2a00f4437c96776ad1d",
+        "Created": "2026-02-07T08:28:24.597861391Z",
+        "Path": "/app/hello",
+        "Args": [],
+        "State": {
+...
+Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "app=hello_world"
+            ],
+            "Cmd": [
+                "/app/hello"
+            ],
+            "Image": "hello:3.0",
+            "Volumes": null,
+            "WorkingDir": "/",
+            "Entrypoint": null,
+            "Labels": {}
+        },
+
+...
+]
+```
+
+
+### ARG
+
+```dockerfile
+FROM golang:1.25 AS builder
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.23.3
+COPY --from=builder /app/hello /app/hello
+ENV APP="hello_world"
+ARG GIROPOPS="strigus"
+RUN echo "Hello, ${GIROPOPS} - ${APP}!" 
+CMD ["/app/hello"]
+```
+
+```bash
+$ docker image build -t hello:4.0 .                    
+[+] Building 3.6s (16/16) FINISHED                                                                                                docker:default
+ => [internal] load build definition from Dockerfile                                                                                        0.0s
+ => => transferring dockerfile: 306B                                                                                                        0.0s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                              0.8s
+ => [internal] load metadata for docker.io/library/alpine:3.23.3                                                                            0.8s
+ => [auth] library/golang:pull token for registry-1.docker.io                                                                               0.0s
+ => [auth] library/alpine:pull token for registry-1.docker.io                                                                               0.0s
+ => [internal] load .dockerignore                                                                                                           0.0s
+ => => transferring context: 2B                                                                                                             0.0s
+ => [builder 1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                0.0s
+ => [stage-1 1/3] FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659              0.0s
+ => [internal] load build context                                                                                                           0.0s
+ => => transferring context: 333B                                                                                                           0.0s
+ => CACHED [builder 2/5] WORKDIR /app                                                                                                       0.0s
+ => [builder 3/5] COPY . ./                                                                                                                 0.0s
+ => [builder 4/5] RUN go mod init hello                                                                                                     0.2s
+ => [builder 5/5] RUN go build -o /app/hello                                                                                                2.3s
+ => CACHED [stage-1 2/3] COPY --from=builder /app/hello /app/hello                                                                          0.0s
+ => [stage-1 3/3] RUN echo "Hello, strigus - hello_world!"                                                                                  0.2s
+ => exporting to image                                                                                                                      0.0s
+ => => exporting layers                                                                                                                     0.0s
+ => => writing image sha256:f0ec7360efbb502af01acaa5d2d03f202cc607949547743f26edb1ed27708b4f                                                0.0s
+ => => naming to docker.io/library/hello:4.0                                                                                                0.0s
+```
+
+
+
+**Passando valor diferente do arg**
+
+**--build-arg** Passando valores de argumentos para dentro do Dockerfile
+
+```bash
+$ docker image build -t hello:4.0 --build-arg GIROPOPS=PICK26 .
+[+] Building 0.7s (14/14) FINISHED                                                                                                 docker:default
+ => [internal] load build definition from Dockerfile                                                                                         0.0s
+ => => transferring dockerfile: 306B                                                                                                         0.0s
+ => [internal] load metadata for docker.io/library/alpine:3.23.3                                                                             0.4s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                               0.4s
+ => [internal] load .dockerignore                                                                                                            0.0s
+ => => transferring context: 2B                                                                                                              0.0s
+ => [builder 1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                 0.0s
+ => [stage-1 1/3] FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659               0.0s
+ => [internal] load build context                                                                                                            0.0s
+ => => transferring context: 59B                                                                                                             0.0s
+ => CACHED [builder 2/5] WORKDIR /app                                                                                                        0.0s
+ => CACHED [builder 3/5] COPY . ./                                                                                                           0.0s
+ => CACHED [builder 4/5] RUN go mod init hello                                                                                               0.0s
+ => CACHED [builder 5/5] RUN go build -o /app/hello                                                                                          0.0s
+ => CACHED [stage-1 2/3] COPY --from=builder /app/hello /app/hello                                                                           0.0s
+ => [stage-1 3/3] RUN echo "Hello, PICK26 - hello_world!"                                                                                    0.2s
+ => exporting to image                                                                                                                       0.0s
+ => => exporting layers                                                                                                                      0.0s
+ => => writing image sha256:cd865914a6280e75f854ff0b8bd90838541bcb61e5fb2f16814317b52327511d                                                 0.0s
+ => => naming to docker.io/library/hello:4.0                                                                                                 0.0s
+$
+```
+
+
+**Usando o valor de ARG para alterar uma variável de ambiente**
+
+```dockerfile
+FROM golang:1.25 AS builder
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.23.3
+COPY --from=builder /app/hello /app/hello
+ENV APP="hello_world"
+ARG GIROPOPS="strigus"
+ENV GIROPOPS=${GIROPOPS}
+RUN echo "Hello, ${GIROPOPS} - ${APP}!" 
+CMD ["/app/hello"]
+```
+
+
+`'`bash
+$ docker image build -t hello:4.0 --build-arg GIROPOPS=PICK26 .
+[+] Building 3.5s (16/16) FINISHED                                                                                                   docker:default
+ => [internal] load build definition from Dockerfile                                                                                           0.0s
+ => => transferring dockerfile: 331B                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/alpine:3.23.3                                                                               0.8s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                                 0.9s
+ => [auth] library/alpine:pull token for registry-1.docker.io                                                                                  0.0s
+ => [auth] library/golang:pull token for registry-1.docker.io                                                                                  0.0s
+ => [internal] load .dockerignore                                                                                                              0.0s
+ => => transferring context: 2B                                                                                                                0.0s
+ => [builder 1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                   0.0s
+ => [stage-1 1/3] FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659                 0.0s
+ => [internal] load build context                                                                                                              0.0s
+ => => transferring context: 358B                                                                                                              0.0s
+ => CACHED [builder 2/5] WORKDIR /app                                                                                                          0.0s
+ => [builder 3/5] COPY . ./                                                                                                                    0.0s
+ => [builder 4/5] RUN go mod init hello                                                                                                        0.2s
+ => [builder 5/5] RUN go build -o /app/hello                                                                                                   2.4s
+ => CACHED [stage-1 2/3] COPY --from=builder /app/hello /app/hello                                                                             0.0s
+ => CACHED [stage-1 3/3] RUN echo "Hello, PICK26 - hello_world!"                                                                               0.0s
+ => exporting to image                                                                                                                         0.0s
+ => => exporting layers                                                                                                                        0.0s
+ => => writing image sha256:31def76002227ed5aae958e768a24dc8ca18a3a6dfdbedc75524984462c33df7                                                   0.0s
+ => => naming to docker.io/library/hello:4.0                                                                                                   0.0s
+
+$ docker container run hello:4.0                               
+Hello, Giropops - PICK 2026!
+
+$ docker container ls -a                                       
+CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS                          PORTS        NAMES
+44813cc8ce01   hello:4.0                       "/app/hello"             15 seconds ago   Exited (0) 14 seconds ago                    blissful_ride
+a2503175b28b   hello:3.0                       "/app/hello"             14 minutes ago   Exited (0) 14 minutes ago                    serene_khorana
+4b293e5368cb   hello:2.0                       "/app/hello"             28 minutes ago   Exited (0) 28 minutes ago                    sad_engelbart
+49100a79a93a   6d102a2a4e40                    "/app/hello"             34 minutes ago   Exited (0) 34 minutes ago                    zen_kilby
+be8166cc5587   hello:1.0                       "/app/hello"             13 hours ago     Exited (0) 13 hours ago                      interesting_euler
+$
+$ docker container inspect 44813                               
+[
+    {
+        "Id": "44813cc8ce01af775b7870ebd34f6bfbd74436262d2606e559a3ce19068c1cd8",
+        "Created": "2026-02-07T08:43:08.853542356Z",
+        "Path": "/app/hello",
+        "Args": [],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-02-07T08:43:08.88604342Z",
+            "FinishedAt": "2026-02-07T08:43:08.984711628Z"
+        },
+...
+"Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "APP=hello_world",
+                "GIROPOPS=PICK26"
+            ],
+            "Cmd": [
+                "/app/hello"
+            ],
+            "Image": "hello:4.0",
+            "Volumes": null,
+            "WorkingDir": "/",
+            "Entrypoint": null,
+            "Labels": {}
+        },
+...
+$
+```
