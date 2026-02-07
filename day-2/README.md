@@ -447,18 +447,31 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 ```
 
 **FROM**ubuntu:24.04: Usa a versão 24.04 do Ubuntu como base.
+
 **LABEL**: Adiciona metadados úteis como maintainer, versão, descrição, origem e licença.
+
 **RUN** apt-get update && apt-get install -y nginx curl ...: Instala o Nginx e o curl, limpa a cache do apt para reduzir o tamanho da imagem.
+
 **COPY** index.html ...: Copia um ficheiro local para o diretório web do Nginx.
+
 **ADD** Copia ficheiros, diretórios, ficheiros TAR ou ficheiros remotos e os adiciona ao filesystem do container.
+
 **RUN** curl ... && tar ... && chmod ... && rm ...: Faz download de um ficheiro .tar.gz, extrai para /usr/bin, torna executável e remove o ficheiro temporário. Esta abordagem é eficiente e reduz camadas.
+
 **EXPOSE** 80: Documenta que a aplicação escuta na porta 80.
+
 **WORKDIR**/var/www/html: Define o diretório de trabalho padrão.
+
 **ENV** APP_VERSION=1.0.0: Define uma variável de ambiente.
+
 **ENTRYPOINT** ["nginx"]: Define o processo principal do container.
+
 **CMD** ["-g", "daemon off;"]: Parâmetros para o Nginx rodar em foreground.
+
 **HEALTHCHECK**: Adiciona um teste de saúde simples usando curl.
+
 **USER** Determina qual utilizador será utilizado na imagem. Por default é o root.
+
 
 
 ## Desafio prático
@@ -747,15 +760,22 @@ CMD ["/app/hello"]
 **Primeira Etapa (Stage)**
 
 **FROM** golang:1.25 **AS** builder: Usa uma imagem oficial do Go para compilar o código. O alias **builder** permite referenciar esta etapa depois.
+
 **WORKDIR** /app: Define o diretório de trabalho para os comandos seguintes.
+
 **COPY** . ./: Copia todos os ficheiros do contexto para o diretório /app.
+
 **RUN** go mod init hello: Inicializa o módulo Go (pode ser omitido se já existir go.mod).
+
 **RUN** go build -o /app/hello: Compila o binário hello.
+
 
 **Segunda Etapa (Stage)**
 
 **FROM** alpine:3.23.3: Usa uma imagem Alpine, muito leve, para a imagem final.
+
 **COPY** **--from=builder** /app/hello /app/hello: Copia apenas o binário compilado da etapa anterior (**--from=builder** ), sem dependências de build.
+
 **CMD** ["/app/hello"]: Define o comando a executar no container.
 
 
@@ -765,3 +785,5 @@ CMD ["/app/hello"]
   - As dependências e ferramentas de build não ficam na imagem final, melhorando segurança e performance.
   - Processo de build limpo e fácil de manter.
   
+
+##ENV e ARG no Dockerfile
