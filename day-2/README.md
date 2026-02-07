@@ -15,6 +15,10 @@
   - [Adicionando HEALTHCHECK ao nosso Dockerfile](#adicionando-healthcheck-ao-nosso-dockerfile)
   - [Descomplicando o meu Dockerfile](#descomplicando-o-meu-dockerfile)
   - [Desafio prático](#desafio-prático)
+  - [Multistage](#multistage)
+    - [Dockerfile sem multistage](#dockerfile-sem-multistage)
+    - [Dockerfile com multistage](#dockerfile-com-multistage)
+    - [Descomplicando o meu Dockerfile com multistage](#descomplicando-o-meu-dockerfile-com-multistage)
 
 
 ## O que são imagens de container ?
@@ -549,3 +553,215 @@ fbf4dde0c42c   meu-nginx:4.0                   "nginx -g 'daemon of…"   40 min
 d74cb20d0e92   meu-nginx:2.0                   "nginx -g 'daemon of…"   About an hour ago   Up About an hour               0.0.0.0:8080->80/tcp, [::]:8080->80/tcp                    meu-nginx
 $
 ```
+
+
+
+## Multistage
+
+O multistage build no Dockerfile permite usar múltiplas imagens base e etapas de build no mesmo ficheiro. Assim, é possível compilar, testar e copiar apenas os artefactos finais para a imagem de produção, reduzindo o tamanho e melhorando a segurança.
+
+**Vantagens:**
+- Imagens finais mais pequenas e seguras (apenas o necessário vai para produção)
+- Processo de build mais limpo e organizado
+- Permite separar dependências de build das de execução
+- Facilita a manutenção e reutilização de etapas
+
+
+### Dockerfile sem multistage
+
+**Exemplo go usado no exemplo**
+
+**Ficheiro:** hello.go
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello, Giropops - PICK 2026!")
+}
+```
+
+
+**Se quiser fazer build e executar fora do docker**
+
+```bash
+$ go mod init hello
+$ go build -o hello
+$ ./hello
+```
+
+**NOTA:** Não se esqueça no final do teste apagar os ficheiros go.mod e hello
+
+
+
+
+```dockerfile
+FROM golang:1.29
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+CMD ["/app/hello"]
+```
+
+
+**build**
+
+```bash
+$ docker image build -t hello:1.0 .   
+[+] Building 10.2s (10/10) FINISHED                                                                                           docker:default
+ => [internal] load build definition from Dockerfile                                                                                    0.0s
+ => => transferring dockerfile: 145B                                                                                                    0.0s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                          1.2s
+ => [internal] load .dockerignore                                                                                                       0.0s
+ => => transferring context: 2B                                                                                                         0.0s
+ => [1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                    6.0s
+ => => resolve docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                    0.0s
+ => => sha256:954d6059ca7bdbb9ceb566ca2239e01ef312165659d656753d7dbace7771a591 25.61MB / 25.61MB                                        1.7s
+ => => sha256:b5e2021c4c8bd1a46b34d9608a9381afdc333600ee1ef3c94306ecf7373e1956 67.79MB / 67.79MB                                        2.0s
+ => => sha256:4741e2c519579d44a174a5e64b4104dbd1ad73b7a9c53733131db4838ae3be3e 3.04kB / 3.04kB                                          0.0s
+ => => sha256:d3b37a8f89c93c2b56d4f2cea38e4d53f9d7f8d10f0241ae1a526dab622bdf05 102.14MB / 102.14MB                                      3.1s
+ => => sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb 9.70kB / 9.70kB                                          0.0s
+ => => sha256:7af63db8d8dc56289c8fa6d9883ad9d043c332755343a243dbb5d91984343a03 2.32kB / 2.32kB                                          0.0s
+ => => extracting sha256:954d6059ca7bdbb9ceb566ca2239e01ef312165659d656753d7dbace7771a591                                               0.2s
+ => => sha256:0fdf71b47847e47b44531d019e8eed7d243fd7189fe6b14cf6754724b04fbdd6 60.16MB / 60.16MB                                        3.4s
+ => => extracting sha256:b5e2021c4c8bd1a46b34d9608a9381afdc333600ee1ef3c94306ecf7373e1956                                               0.9s
+ => => sha256:cac7b480234dda467a567c0327f68728ccf10a679b4f797393e9b61161862427 126B / 126B                                              2.3s
+ => => sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 32B / 32B                                                2.7s
+ => => extracting sha256:d3b37a8f89c93c2b56d4f2cea38e4d53f9d7f8d10f0241ae1a526dab622bdf05                                               1.0s
+ => => extracting sha256:0fdf71b47847e47b44531d019e8eed7d243fd7189fe6b14cf6754724b04fbdd6                                               1.5s
+ => => extracting sha256:cac7b480234dda467a567c0327f68728ccf10a679b4f797393e9b61161862427                                               0.0s
+ => => extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1                                               0.0s
+ => [internal] load build context                                                                                                       0.0s
+ => => transferring context: 259B                                                                                                       0.0s
+ => [2/5] WORKDIR /app                                                                                                                  0.4s
+ => [3/5] COPY . ./                                                                                                                     0.0s
+ => [4/5] RUN go mod init hello                                                                                                         0.2s
+ => [5/5] RUN go build -o /app/hello                                                                                                    2.4s
+ => exporting to image                                                                                                                  0.1s
+ => => exporting layers                                                                                                                 0.1s
+ => => writing image sha256:fb05d4f6f07218acf327d783d2a20dd12275e40aee843578ae9e5a7b4d300b53                                            0.0s
+ => => naming to docker.io/library/hello:1.0                                                                                            0.0s
+```
+
+**Executar**
+```bash
+$ docker container run hello:1.0                                         
+Hello, World!
+```
+
+```bash
+$ docker image ls                  
+                                                                                                                         i Info →   U  In Use
+IMAGE                           ID             DISK USAGE   CONTENT SIZE   EXTRA
+debian-nginx:1.0                820f6b8fb803        150MB             0B    U   
+hello:1.0                       fb05d4f6f072        880MB             0B    U   
+```
+
+Como podemos verificar a execução funcionou sem problemas, porem a imagem ficou muito grande 880Mb
+
+
+
+### Dockerfile com multistage
+
+```dockerfile
+FROM golang:1.25 AS builder
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.23.3
+COPY --from=builder /app/hello /app/hello
+CMD ["/app/hello"]
+```
+
+
+**build**
+
+```bash
+$ docker image build -t hello:2.0 .
+[+] Building 3.0s (13/13) FINISHED                                                                                                    docker:default
+ => [internal] load build definition from Dockerfile                                                                                            0.0s
+ => => transferring dockerfile: 220B                                                                                                            0.0s
+ => [internal] load metadata for docker.io/library/alpine:3.23.3                                                                                0.4s
+ => [internal] load metadata for docker.io/library/golang:1.25                                                                                  0.4s
+ => [internal] load .dockerignore                                                                                                               0.0s
+ => => transferring context: 2B                                                                                                                 0.0s
+ => [builder 1/5] FROM docker.io/library/golang:1.25@sha256:d2e5acc5c29cc331ad5e4f59b09dee0f7d47043b072de0799be63e5c49f95feb                    0.0s
+ => [stage-1 1/2] FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659                  0.0s
+ => [internal] load build context                                                                                                               0.0s
+ => => transferring context: 247B                                                                                                               0.0s
+ => CACHED [builder 2/5] WORKDIR /app                                                                                                           0.0s
+ => [builder 3/5] COPY . ./                                                                                                                     0.0s
+ => [builder 4/5] RUN go mod init hello                                                                                                         0.2s
+ => [builder 5/5] RUN go build -o /app/hello                                                                                                    2.2s
+ => CACHED [stage-1 2/2] COPY --from=builder /app/hello /app/hello                                                                              0.0s
+ => exporting to image                                                                                                                          0.0s
+ => => exporting layers                                                                                                                         0.0s
+ => => writing image sha256:6d102a2a4e40ecfe95dd8c72e85f1977267b8de6704db46cd1d400c579dbf573                                                    0.0s
+ => => naming to docker.io/library/hello:2.0                                                                                                    0.0s
+$
+$
+```
+
+```bash
+$ docker container run hello:2.0   
+Hello, Giropops!
+$
+```
+
+```bash
+$ docker image ls                  
+                                                                                                                              i Info →   U  In Use
+IMAGE                           ID             DISK USAGE   CONTENT SIZE   EXTRA
+debian-nginx:1.0                820f6b8fb803        150MB             0B    U   
+hello:1.0                       fb05d4f6f072        880MB             0B    U   
+hello:2.0                       6d102a2a4e40       10.7MB             0B    U   
+$
+$
+```
+
+Como podemos verificar agora a imagem 2.0 ficou muito menor 10Mb.
+
+
+
+### Descomplicando o meu Dockerfile com multistage
+
+
+```dockerfile
+FROM golang:1.25 AS builder
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.23.3
+COPY --from=builder /app/hello /app/hello
+CMD ["/app/hello"]
+```
+
+
+**Primeira Etapa (Stage)**
+
+**FROM** golang:1.25 **AS** builder: Usa uma imagem oficial do Go para compilar o código. O alias **builder** permite referenciar esta etapa depois.
+**WORKDIR** /app: Define o diretório de trabalho para os comandos seguintes.
+**COPY** . ./: Copia todos os ficheiros do contexto para o diretório /app.
+**RUN** go mod init hello: Inicializa o módulo Go (pode ser omitido se já existir go.mod).
+**RUN** go build -o /app/hello: Compila o binário hello.
+
+**Segunda Etapa (Stage)**
+
+**FROM** alpine:3.23.3: Usa uma imagem Alpine, muito leve, para a imagem final.
+**COPY** **--from=builder** /app/hello /app/hello: Copia apenas o binário compilado da etapa anterior (**--from=builder** ), sem dependências de build.
+**CMD** ["/app/hello"]: Define o comando a executar no container.
+
+
+**Vantagens:**
+
+  - Apenas o binário final é incluído na imagem de produção, tornando-a muito pequena (~10MB).
+  - As dependências e ferramentas de build não ficam na imagem final, melhorando segurança e performance.
+  - Processo de build limpo e fácil de manter.
+  
