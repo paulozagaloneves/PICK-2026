@@ -1,6 +1,4 @@
-
 # Day 2 - Imagens do Container
-
 
 ## Índice
 
@@ -35,13 +33,11 @@
   - [Glossário Dockerfile](#glossário-dockerfile)
   - [Timeline: Criação de uma Imagem Docker](#timeline-criação-de-uma-imagem-docker)
 
-
 ## O que são imagens de container ?
 
 Imagens de container são ficheiros imutáveis que contêm tudo o que é necessário para executar uma aplicação: código, bibliotecas, dependências, variáveis de ambiente e ficheiros de configuração. Funcionam como um modelo para criar containers, garantindo que a aplicação funcione de forma consistente em qualquer ambiente. Cada imagem pode ser composta por várias camadas, optimizando o armazenamento e a partilha entre diferentes containers.
 
 ![Imagem de Container](/images/Docker_Image_Layers_01.png)
-
 
 ## O meu primeiro Dockerfile
 
@@ -57,7 +53,6 @@ Um ficheiro Dockerfile é um documento de texto que contém instruções para co
 - LABEL permite adicionar metadados à imagem
 - É recomendado minimizar o número de camadas para imagens mais leves
 
-
 ### Exemplo de Dockerfile com Ubuntu e Nginx
 
 **nome do ficheiro:** Dockerfile
@@ -67,14 +62,15 @@ Um ficheiro Dockerfile é um documento de texto que contém instruções para co
 FROM ubuntu:24.04
 
 # Install nginx
+
 RUN apt update && apt install -y nginx 
 # expose port 80
 EXPOSE 80
 
 # command to run nginx in the foreground
+
 CMD ["nginx", "-g", "daemon off;"]
 ```
-
 
 ### Build da imagem
 
@@ -148,9 +144,7 @@ Commercial support is available at
 $
 ```
 
-
 ## Conhecendo mais parâmetros no Dockerfile
-
 
 ```dockerfile
 FROM ubuntu:24.04
@@ -165,8 +159,6 @@ ENV APP_VERSION=1.0.0
 ```
 
 Este Dockerfile cria uma imagem baseada no Ubuntu, instala o Nginx, copia um ficheiro `index.html` para o diretório web e expõe a porta 80.
-
-
 
 ```bash
 $ docker image build -t meu-nginx:2.0 .
@@ -254,6 +246,7 @@ $ docker image build -t meu-nginx:3.0 .
  $
  ```
 
+
  ```bash
  $  docker image ls 
                                                                                        i Info →   U  In Use
@@ -287,7 +280,6 @@ O comando COPY é recomendado para cópias simples de ficheiros locais, pois é 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:80 || exit 1
 ```
-
 
 ```dockerfile
 FROM ubuntu:24.04
@@ -338,6 +330,7 @@ $  docker image build -t meu-nginx:4.0 .
  $
  ```
 
+
 **executando**
 
 ```bash
@@ -360,7 +353,6 @@ root@fbf4dde0c42c:/var/www/html# ls -l /usr/bin/kvm-compose
 -rw------- 1 root root 1847876 Feb  5 17:10 /usr/bin/kvm-compose
 root@fbf4dde0c42c:/var/www/html# 
 ```
-
 
 **Versão Optimizada**
 
@@ -431,7 +423,6 @@ $
 
 ## Descomplicando o meu Dockerfile
 
-
 ```dockerfile
 FROM ubuntu:24.04
 LABEL maintainer="email@email.com"
@@ -487,12 +478,9 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 
 **USER** Determina qual utilizador será utilizado na imagem. Por default é o root.
 
-
-
 ## Desafio prático
 
 Criar uma imagem e container com imagem base debian e executabdo NGINX.
-
 
 **Dockerfile-desafio**
 
@@ -513,7 +501,6 @@ CMD ["-g", "daemon off;"]
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:80 || exit 1
 ```
-
 
 **build**
 
@@ -582,8 +569,6 @@ d74cb20d0e92   meu-nginx:2.0                   "nginx -g 'daemon of…"   About 
 $
 ```
 
-
-
 ## Multistage
 
 O multistage build no Dockerfile permite usar múltiplas imagens base e etapas de build no mesmo ficheiro. Assim, é possível compilar, testar e copiar apenas os artefactos finais para a imagem de produção, reduzindo o tamanho e melhorando a segurança.
@@ -593,7 +578,6 @@ O multistage build no Dockerfile permite usar múltiplas imagens base e etapas d
 - Processo de build mais limpo e organizado
 - Permite separar dependências de build das de execução
 - Facilita a manutenção e reutilização de etapas
-
 
 ### Dockerfile sem multistage
 
@@ -611,7 +595,6 @@ func main() {
 }
 ```
 
-
 **Se quiser fazer build e executar fora do docker**
 
 ```bash
@@ -622,9 +605,6 @@ $ ./hello
 
 **NOTA:** Não se esqueça no final do teste apagar os ficheiros go.mod e hello
 
-
-
-
 ```dockerfile
 FROM golang:1.29
 WORKDIR /app
@@ -633,7 +613,6 @@ RUN go mod init hello
 RUN go build -o /app/hello
 CMD ["/app/hello"]
 ```
-
 
 **build**
 
@@ -690,8 +669,6 @@ hello:1.0                       fb05d4f6f072        880MB             0B    U
 
 Como podemos verificar a execução funcionou sem problemas, porem a imagem ficou muito grande 880Mb
 
-
-
 ### Dockerfile com multistage
 
 ```dockerfile
@@ -705,7 +682,6 @@ FROM alpine:3.23.3
 COPY --from=builder /app/hello /app/hello
 CMD ["/app/hello"]
 ```
-
 
 **build**
 
@@ -754,10 +730,7 @@ $
 
 Como podemos verificar agora a imagem 2.0 ficou muito menor 10Mb.
 
-
-
 ### Descomplicando o meu Dockerfile com multistage
-
 
 ```dockerfile
 FROM golang:1.25 AS builder
@@ -771,7 +744,6 @@ COPY --from=builder /app/hello /app/hello
 CMD ["/app/hello"]
 ```
 
-
 **Primeira Etapa (Stage)**
 
 **FROM** golang:1.25 **AS** builder: Usa uma imagem oficial do Go para compilar o código. O alias **builder** permite referenciar esta etapa depois.
@@ -784,7 +756,6 @@ CMD ["/app/hello"]
 
 **RUN** go build -o /app/hello: Compila o binário hello.
 
-
 **Segunda Etapa (Stage)**
 
 **FROM** alpine:3.23.3: Usa uma imagem Alpine, muito leve, para a imagem final.
@@ -792,7 +763,6 @@ CMD ["/app/hello"]
 **COPY** **--from=builder** /app/hello /app/hello: Copia apenas o binário compilado da etapa anterior (**--from=builder** ), sem dependências de build.
 
 **CMD** ["/app/hello"]: Define o comando a executar no container.
-
 
 **Vantagens:**
 
@@ -818,7 +788,6 @@ ENV app="hello_world"
 CMD ["/app/hello"]
 
 ```
-
 
 **build**
 
@@ -888,7 +857,6 @@ Env": [
 ]
 ```
 
-
 ### ARG
 
 ```dockerfile
@@ -933,8 +901,6 @@ $ docker image build -t hello:4.0 .
  => => naming to docker.io/library/hello:4.0                                                                                                0.0s
 ```
 
-
-
 **Passando valor diferente do arg**
 
 **--build-arg** Passando valores de argumentos para dentro do Dockerfile
@@ -965,7 +931,6 @@ $ docker image build -t hello:4.0 --build-arg GIROPOPS=PICK26 .
 $
 ```
 
-
 **Usando o valor de ARG para alterar uma variável de ambiente**
 
 ```dockerfile
@@ -983,7 +948,6 @@ ENV GIROPOPS=${GIROPOPS}
 RUN echo "Hello, ${GIROPOPS} - ${APP}!" 
 CMD ["/app/hello"]
 ```
-
 
 ```bash
 $ docker image build -t hello:4.0 --build-arg GIROPOPS=PICK26 .
@@ -1061,14 +1025,9 @@ $ docker container inspect 44813
 $
 ```
 
-
-
 ## Volumes
 
-
-
 **VOLUME** Comando que expoe o volume para persistência de dados
-
 
 ```dockerfile
 FROM golang:1.25 AS builder
@@ -1094,7 +1053,6 @@ RUN echo "Hello, ${GIROPOPS} - ${APP}!"
 VOLUME /app/dados
 CMD ["/app/hello"]
 ```
-
 
 ```bash
  docker image build -t hello:5.0 --build-arg GIROPOPS=PICK26 .
@@ -1201,16 +1159,15 @@ $ docker container inspect a03e8
 ## Pull, Push e Dockerhub
 
 ### **Pull**
+
 O comando docker pull é utilizado para fazer download uma imagem de container do Docker Hub (ou de outro repositório de imagens) para o seu ambiente local. 
 Garante que tem a versão mais recente da imagem especificada, permitindo criar e executar containers a partir dela. 
 Por exemplo, docker pull nginx faz dowload a imagem oficial do Nginx.
-
 
 ```bash
 $ docker pull nginx
 $
 ```
-
 
 ### **Login**
 
@@ -1228,7 +1185,6 @@ $ docker logout
 $
 ```
 
-
 ### **Tag**
 
 O comando docker tag é utilizado para atribuir um novo nome (tag) a uma imagem existente. Serve para organizar, versionar e preparar imagens para serem enviadas (push) para repositórios como o Docker Hub. 
@@ -1237,7 +1193,6 @@ Para fazer push para o Docker Hub, a tag deve seguir o formato utilizador/nome:v
 docker tag hello:5.0 pauloneves/hello:5.0
 
 Depois, basta executar docker push pauloneves/hello:5.0 para publicar a imagem no seu repositório do Docker Hub.
-
 
 ```bash
 $ docker tag hello:5.0 pauloneves/hello:5.0
@@ -1270,8 +1225,6 @@ pauloneves/opsdeck-api:0.0.2    b3e2bcc720d9        380MB             0B
 $
 ```
 
-
-
 ## **push**
 
 ```bash
@@ -1283,7 +1236,6 @@ deef140ca8fe: Pushed
 5.0: digest: sha256:6d2de5d00ab8952c5c86006471a3638576f226e79a3bc0467c2dd48752850053 size: 945
 $
 ```
-
 
 ## **search**
 
@@ -1305,14 +1257,12 @@ pauloneves/hello                                    0
 pnevespi/pauloneves_node                            0 
 ```
 
-
 ## **history**
 
 O comando docker history mostra o histórico de uma imagem, detalhando as camadas que a compõem. 
 Apresenta informações como comandos usados, tamanho de cada camada, autor e data de criação. 
 É útil para analisar como uma imagem foi construída e identificar possíveis otimizações. 
 Por exemplo, docker history nginx exibe o histórico da imagem do Nginx.
-
 
 ```bash
  docker history pauloneves/hello:5.0   
@@ -1328,7 +1278,6 @@ IMAGE          CREATED       CREATED BY                                      SIZ
 <missing>      10 days ago   ADD alpine-minirootfs-3.23.3-x86_64.tar.gz /…   8.44MB    buildkit.dockerfile.v0
 ```
 
-
 ## Registry privado
 
 O projeto Distribution é a implementação oficial do registro de imagens Docker, conhecido como Docker Registry. 
@@ -1337,7 +1286,6 @@ Permite armazenar, gerir e distribuir imagens de containers de forma segura, tan
 
 **GitHub:** https://github.com/docker/distribution
 
-
 ```bash
 $ docker run -d -p 5000:5000 --restart always --name registry registry:3
 $
@@ -1345,7 +1293,6 @@ $ docker pull ubuntu
 $ docker tag ubuntu localhost:5000/ubuntu
 $ docker push localhost:5000/ubuntu
 ```
-
 
 ## Glossário Dockerfile
 
@@ -1388,9 +1335,6 @@ Expõe um diretório como volume para persistência de dados.
 **WORKDIR**
 Define o diretório de trabalho para comandos RUN, CMD, ENTRYPOINT e COPY.
 
-
-
-
 ## Timeline: Criação de uma Imagem Docker
 
 1. Criação do Dockerfile
@@ -1399,4 +1343,3 @@ Define o diretório de trabalho para comandos RUN, CMD, ENTRYPOINT e COPY.
 4. Push da imagem
 5. Verificação de Vulnerabilidades
 6. Assinatura com o Cosign
-
