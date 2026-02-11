@@ -49,4 +49,25 @@
   - Registry privado
   - Glossário Dockerfile
   - Timeline: Criação de uma Imagem Docker
+
+- [Day 3 - Otimizando Imagens](day-3/README.md)
+  - Giropops Senhas
+    - Clone do projeto
+    - Instalar o pip
+    - Criar um ambiente virtual do python3
+    - Instalar as dependências da nossa aplicação
+    - Executar a aplicação Giropops Senhas
+    - Instalar o REDIS
+    - Reexecutar a aplicação
+  - Containerizando a aplicação Giropops Senhas
+    - Build
+    - Run
+  - Optimizando Imagem
+    - 2ª versão (versão slim)
+    - 3ª versão (alpine)
+  - Optimizando mais ainda a nossa imagem com Distroless
+    - Chainguard Wolfi
+    - Distroless Google
+    - Comparativo
+  - Verificar vulnerabilidade com Trivy
   
