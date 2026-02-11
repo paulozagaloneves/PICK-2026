@@ -50,7 +50,7 @@
   - Glossário Dockerfile
   - Timeline: Criação de uma Imagem Docker
 
-- [Day 3 - Otimizando Imagens](day-3/README.md)
+**[Day 3 - Otimizando Imagens](day-3/README.md)**
   - Giropops Senhas
     - Clone do projeto
     - Instalar o pip

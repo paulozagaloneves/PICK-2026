@@ -879,9 +879,9 @@ Legend:
 Assinatura de imagens é o processo de aplicar uma assinatura digital a uma imagem de container. Isso permite que usuários e sistemas verifiquem se a imagem foi criada por uma fonte confiável e se não foi modificada desde a assinatura. Assim, aumenta a segurança no uso e distribuição de containers.
 
 
-[Github](https://github.com/sigstore/cosign)
-[Sigstore.dev](https://www.sigstore.dev/)
-[Installation](https://docs.sigstore.dev/cosign/system_config/installation/)
+- [Github](https://github.com/sigstore/cosign)
+- [Sigstore.dev](https://www.sigstore.dev/)
+- [Installation](https://docs.sigstore.dev/cosign/system_config/installation/)
 
 ### Install cosign
 
