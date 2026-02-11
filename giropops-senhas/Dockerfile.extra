@@ -1,0 +1,21 @@
+FROM cgr.dev/chainguard/python:latest-dev as buildando
+WORKDIR /app
+
+COPY requirements.txt .
+RUN python -m venv /app/venv
+RUN /app/venv/bin/pip install --no-cache-dir -r requirements.txt
+
+FROM cgr.dev/chainguard/python:latest
+WORKDIR /app
+
+COPY --from=buildando /app/venv /app/venv
+COPY app.py .
+COPY templates templates/
+COPY static static/
+
+ENV PATH="/app/venv/bin:$PATH"
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
+ENTRYPOINT ["python", "-m", "flask", "run"]
+

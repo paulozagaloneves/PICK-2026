@@ -1,0 +1,359 @@
+
+Report Summary
+
+┌──────────────────────────────────────────────────────────────────────────────────┬────────────┬─────────────────┬─────────┐
+│                                      Target                                      │    Type    │ Vulnerabilities │ Secrets │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ giropops-senhas:5.0 (debian 12.13)                                               │   debian   │       92        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/blinker-1.9.0.dist-info/METADATA           │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/click-8.3.1.dist-info/METADATA             │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/flask-3.0.3.dist-info/METADATA             │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/itsdangerous-2.2.0.dist-info/METADATA      │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/jinja2-3.1.6.dist-info/METADATA            │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/markupsafe-3.0.3.dist-info/METADATA        │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/pip-26.0.1.dist-info/METADATA              │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/prometheus_client-0.16.0.dist-info/METADA- │ python-pkg │        0        │    -    │
+│ TA                                                                               │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/redis-4.5.4.dist-info/METADATA             │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ app/venv/lib/python3.14/site-packages/werkzeug-3.1.5.dist-info/METADATA          │ python-pkg │        0        │    -    │
+└──────────────────────────────────────────────────────────────────────────────────┴────────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+giropops-senhas:5.0 (debian 12.13)
+==================================
+Total: 92 (UNKNOWN: 0, LOW: 32, MEDIUM: 42, HIGH: 16, CRITICAL: 2)
+
+┌───────────────────────┬──────────────────┬──────────┬──────────────┬───────────────────┬───────────────┬──────────────────────────────────────────────────────────────┐
+│        Library        │  Vulnerability   │ Severity │    Status    │ Installed Version │ Fixed Version │                            Title                             │
+├───────────────────────┼──────────────────┼──────────┼──────────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ gcc-12-base           │ CVE-2022-27943   │ LOW      │ affected     │ 12.2.0-14+deb12u1 │               │ binutils: libiberty/rust-demangle.c in GNU GCC 11.2 allows   │
+│                       │                  │          │              │                   │               │ stack exhaustion in demangle_const                           │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2022-27943                   │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libc6                 │ CVE-2026-0861    │ HIGH     │              │ 2.36-9+deb12u13   │               │ glibc: Integer overflow in memalign leads to heap corruption │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0861                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15281   │ MEDIUM   │              │                   │               │ glibc: wordexp with WRDE_REUSE and WRDE_APPEND may return    │
+│                       │                  │          │              │                   │               │ uninitialized memory                                         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15281                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0915    │          │              │                   │               │ glibc: glibc: Information disclosure via zero-valued network │
+│                       │                  │          │              │                   │               │ query                                                        │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0915                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2010-4756    │ LOW      │              │                   │               │ glibc: glob implementation can cause excessive CPU and       │
+│                       │                  │          │              │                   │               │ memory consumption due to...                                 │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2010-4756                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2018-20796   │          │              │                   │               │ glibc: uncontrolled recursion in function                    │
+│                       │                  │          │              │                   │               │ check_dst_limits_calc_pos_1 in posix/regexec.c               │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2018-20796                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2019-1010022 │          │              │                   │               │ glibc: stack guard protection bypass                         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2019-1010022                 │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2019-1010023 │          │              │                   │               │ glibc: running ldd on malicious ELF leads to code execution  │
+│                       │                  │          │              │                   │               │ because of...                                                │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2019-1010023                 │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2019-1010024 │          │              │                   │               │ glibc: ASLR bypass using cache of thread stack and heap      │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2019-1010024                 │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2019-1010025 │          │              │                   │               │ glibc: information disclosure of heap addresses of           │
+│                       │                  │          │              │                   │               │ pthread_created thread                                       │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2019-1010025                 │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2019-9192    │          │              │                   │               │ glibc: uncontrolled recursion in function                    │
+│                       │                  │          │              │                   │               │ check_dst_limits_calc_pos_1 in posix/regexec.c               │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2019-9192                    │
+├───────────────────────┼──────────────────┼──────────┼──────────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libexpat1             │ CVE-2025-59375   │ MEDIUM   │ will_not_fix │ 2.5.0-1+deb12u2   │               │ expat: libexpat in Expat allows attackers to trigger large   │
+│                       │                  │          │              │                   │               │ dynamic memory allocations...                                │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-59375                   │
+│                       ├──────────────────┤          ├──────────────┤                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-66382   │          │ fix_deferred │                   │               │ libexpat: libexpat: Denial of service via crafted file       │
+│                       │                  │          │              │                   │               │ processing                                                   │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-66382                   │
+│                       ├──────────────────┤          ├──────────────┤                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-25210   │          │ affected     │                   │               │ libexpat: libexpat: Information disclosure and data          │
+│                       │                  │          │              │                   │               │ integrity issues due to integer overflow...                  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-25210                   │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2023-52426   │ LOW      │              │                   │               │ expat: recursive XML entity expansion vulnerability          │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2023-52426                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-28757   │          │              │                   │               │ expat: XML Entity Expansion                                  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-28757                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-24515   │          │              │                   │               │ libexpat: libexpat null pointer dereference                  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-24515                   │
+├───────────────────────┼──────────────────┤          │              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libgcc-s1             │ CVE-2022-27943   │          │              │ 12.2.0-14+deb12u1 │               │ binutils: libiberty/rust-demangle.c in GNU GCC 11.2 allows   │
+│                       │                  │          │              │                   │               │ stack exhaustion in demangle_const                           │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2022-27943                   │
+├───────────────────────┤                  │          │              │                   ├───────────────┤                                                              │
+│ libgomp1              │                  │          │              │                   │               │                                                              │
+│                       │                  │          │              │                   │               │                                                              │
+│                       │                  │          │              │                   │               │                                                              │
+├───────────────────────┼──────────────────┤          │              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libgssapi-krb5-2      │ CVE-2018-5709    │          │              │ 1.20.1-2+deb12u4  │               │ krb5: integer overflow in dbentry->n_key_data in             │
+│                       │                  │          │              │                   │               │ kadmin/dbutil/dump.c                                         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2018-5709                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26458   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/rpc/pmap_rmt.c            │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26458                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26461   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/gssapi/krb5/k5sealv3.c    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26461                   │
+├───────────────────────┼──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│ libk5crypto3          │ CVE-2018-5709    │          │              │                   │               │ krb5: integer overflow in dbentry->n_key_data in             │
+│                       │                  │          │              │                   │               │ kadmin/dbutil/dump.c                                         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2018-5709                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26458   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/rpc/pmap_rmt.c            │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26458                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26461   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/gssapi/krb5/k5sealv3.c    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26461                   │
+├───────────────────────┼──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│ libkrb5-3             │ CVE-2018-5709    │          │              │                   │               │ krb5: integer overflow in dbentry->n_key_data in             │
+│                       │                  │          │              │                   │               │ kadmin/dbutil/dump.c                                         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2018-5709                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26458   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/rpc/pmap_rmt.c            │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26458                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26461   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/gssapi/krb5/k5sealv3.c    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26461                   │
+├───────────────────────┼──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│ libkrb5support0       │ CVE-2018-5709    │          │              │                   │               │ krb5: integer overflow in dbentry->n_key_data in             │
+│                       │                  │          │              │                   │               │ kadmin/dbutil/dump.c                                         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2018-5709                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26458   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/rpc/pmap_rmt.c            │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26458                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2024-26461   │          │              │                   │               │ krb5: Memory leak at /krb5/src/lib/gssapi/krb5/k5sealv3.c    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2024-26461                   │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libncursesw6          │ CVE-2023-50495   │ MEDIUM   │              │ 6.4-4             │               │ ncurses: segmentation fault via _nc_wrap_entry()             │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2023-50495                   │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6141    │ LOW      │              │                   │               │ gnu-ncurses: ncurses Stack Buffer Overflow                   │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6141                    │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libpython3.11-minimal │ CVE-2025-13836   │ HIGH     │              │ 3.11.2-6+deb12u6  │               │ cpython: Excessive read buffering DoS in http.client         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-13836                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15366   │          │              │                   │               │ cpython: IMAP command injection in user-controlled commands  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15366                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15367   │          │              │                   │               │ cpython: POP3 command injection in user-controlled commands  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15367                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-8194    │          │              │                   │               │ cpython: Cpython infinite loop when parsing a tarfile        │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-8194                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-1299    │          │              │                   │               │ cpython: email header injection due to unquoted newlines     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-1299                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-11468   │ MEDIUM   │              │                   │               │ cpython: Missing character filtering in Python               │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-11468                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-12084   │          │              │                   │               │ cpython: python: cpython: Quadratic algorithm in             │
+│                       │                  │          │              │                   │               │ xml.dom.minidom leads to denial of service...                │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-12084                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-12781   │          │              │                   │               │ cpython: base64.b64decode() always accepts "+/" characters,  │
+│                       │                  │          │              │                   │               │ despite setting altchars                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-12781                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-13837   │          │              │                   │               │ cpython: Out-of-memory when loading Plist                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-13837                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15282   │          │              │                   │               │ cpython: Header injection via newlines in data URL mediatype │
+│                       │                  │          │              │                   │               │ in Python                                                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15282                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-4516    │          │              │                   │               │ cpython: python: CPython DecodeError Handling Vulnerability  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-4516                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6069    │          │              │                   │               │ cpython: Python HTMLParser quadratic complexity              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6069                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6075    │          │              │                   │               │ python: Quadratic complexity in os.path.expandvars() with    │
+│                       │                  │          │              │                   │               │ user-controlled template                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6075                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-8291    │          │              │                   │               │ cpython: python: Python zipfile End of Central Directory     │
+│                       │                  │          │              │                   │               │ (EOCD) Locator record offset...                              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-8291                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0672    │          │              │                   │               │ cpython: Header injection in http.cookies.Morsel in Python   │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0672                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0865    │          │              │                   │               │ cpython: wsgiref.headers.Headers allows header newline       │
+│                       │                  │          │              │                   │               │ injection in Python                                          │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0865                    │
+├───────────────────────┼──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│ libpython3.11-stdlib  │ CVE-2025-13836   │ HIGH     │              │                   │               │ cpython: Excessive read buffering DoS in http.client         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-13836                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15366   │          │              │                   │               │ cpython: IMAP command injection in user-controlled commands  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15366                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15367   │          │              │                   │               │ cpython: POP3 command injection in user-controlled commands  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15367                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-8194    │          │              │                   │               │ cpython: Cpython infinite loop when parsing a tarfile        │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-8194                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-1299    │          │              │                   │               │ cpython: email header injection due to unquoted newlines     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-1299                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-11468   │ MEDIUM   │              │                   │               │ cpython: Missing character filtering in Python               │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-11468                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-12084   │          │              │                   │               │ cpython: python: cpython: Quadratic algorithm in             │
+│                       │                  │          │              │                   │               │ xml.dom.minidom leads to denial of service...                │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-12084                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-12781   │          │              │                   │               │ cpython: base64.b64decode() always accepts "+/" characters,  │
+│                       │                  │          │              │                   │               │ despite setting altchars                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-12781                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-13837   │          │              │                   │               │ cpython: Out-of-memory when loading Plist                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-13837                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15282   │          │              │                   │               │ cpython: Header injection via newlines in data URL mediatype │
+│                       │                  │          │              │                   │               │ in Python                                                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15282                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-4516    │          │              │                   │               │ cpython: python: CPython DecodeError Handling Vulnerability  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-4516                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6069    │          │              │                   │               │ cpython: Python HTMLParser quadratic complexity              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6069                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6075    │          │              │                   │               │ python: Quadratic complexity in os.path.expandvars() with    │
+│                       │                  │          │              │                   │               │ user-controlled template                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6075                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-8291    │          │              │                   │               │ cpython: python: Python zipfile End of Central Directory     │
+│                       │                  │          │              │                   │               │ (EOCD) Locator record offset...                              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-8291                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0672    │          │              │                   │               │ cpython: Header injection in http.cookies.Morsel in Python   │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0672                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0865    │          │              │                   │               │ cpython: wsgiref.headers.Headers allows header newline       │
+│                       │                  │          │              │                   │               │ injection in Python                                          │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0865                    │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libsqlite3-0          │ CVE-2025-7458    │ CRITICAL │              │ 3.40.1-2+deb12u2  │               │ sqlite: SQLite integer overflow                              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-7458                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-7709    │ MEDIUM   │              │                   │               │ An integer overflow exists in the FTS5                       │
+│                       │                  │          │              │                   │               │ https://sqlite.org/fts5.html e ...                           │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-7709                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2021-45346   │ LOW      │              │                   │               │ sqlite: crafted SQL query allows a malicious user to obtain  │
+│                       │                  │          │              │                   │               │ sensitive information...                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2021-45346                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-29088   │          │              │                   │               │ sqlite: Denial of Service in SQLite                          │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-29088                   │
+├───────────────────────┼──────────────────┤          │              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libssl3               │ CVE-2025-27587   │          │              │ 3.0.18-1~deb12u2  │               │ OpenSSL 3.0.0 through 3.3.2 on the PowerPC architecture is   │
+│                       │                  │          │              │                   │               │ vulnerable ......                                            │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-27587                   │
+├───────────────────────┼──────────────────┤          │              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libstdc++6            │ CVE-2022-27943   │          │              │ 12.2.0-14+deb12u1 │               │ binutils: libiberty/rust-demangle.c in GNU GCC 11.2 allows   │
+│                       │                  │          │              │                   │               │ stack exhaustion in demangle_const                           │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2022-27943                   │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libtinfo6             │ CVE-2023-50495   │ MEDIUM   │              │ 6.4-4             │               │ ncurses: segmentation fault via _nc_wrap_entry()             │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2023-50495                   │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6141    │ LOW      │              │                   │               │ gnu-ncurses: ncurses Stack Buffer Overflow                   │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6141                    │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libuuid1              │ CVE-2025-14104   │ MEDIUM   │              │ 2.38.1-5+deb12u3  │               │ util-linux: util-linux: Heap buffer overread in setpwnam()   │
+│                       │                  │          │              │                   │               │ when processing 256-byte usernames                           │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-14104                   │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2022-0563    │ LOW      │              │                   │               │ util-linux: partial disclosure of arbitrary files in chfn    │
+│                       │                  │          │              │                   │               │ and chsh when compiled...                                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2022-0563                    │
+├───────────────────────┼──────────────────┼──────────┤              ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ python3.11-minimal    │ CVE-2025-13836   │ HIGH     │              │ 3.11.2-6+deb12u6  │               │ cpython: Excessive read buffering DoS in http.client         │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-13836                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15366   │          │              │                   │               │ cpython: IMAP command injection in user-controlled commands  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15366                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15367   │          │              │                   │               │ cpython: POP3 command injection in user-controlled commands  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15367                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-8194    │          │              │                   │               │ cpython: Cpython infinite loop when parsing a tarfile        │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-8194                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-1299    │          │              │                   │               │ cpython: email header injection due to unquoted newlines     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-1299                    │
+│                       ├──────────────────┼──────────┤              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-11468   │ MEDIUM   │              │                   │               │ cpython: Missing character filtering in Python               │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-11468                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-12084   │          │              │                   │               │ cpython: python: cpython: Quadratic algorithm in             │
+│                       │                  │          │              │                   │               │ xml.dom.minidom leads to denial of service...                │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-12084                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-12781   │          │              │                   │               │ cpython: base64.b64decode() always accepts "+/" characters,  │
+│                       │                  │          │              │                   │               │ despite setting altchars                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-12781                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-13837   │          │              │                   │               │ cpython: Out-of-memory when loading Plist                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-13837                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-15282   │          │              │                   │               │ cpython: Header injection via newlines in data URL mediatype │
+│                       │                  │          │              │                   │               │ in Python                                                    │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-15282                   │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-4516    │          │              │                   │               │ cpython: python: CPython DecodeError Handling Vulnerability  │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-4516                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6069    │          │              │                   │               │ cpython: Python HTMLParser quadratic complexity              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6069                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-6075    │          │              │                   │               │ python: Quadratic complexity in os.path.expandvars() with    │
+│                       │                  │          │              │                   │               │ user-controlled template                                     │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-6075                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2025-8291    │          │              │                   │               │ cpython: python: Python zipfile End of Central Directory     │
+│                       │                  │          │              │                   │               │ (EOCD) Locator record offset...                              │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2025-8291                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0672    │          │              │                   │               │ cpython: Header injection in http.cookies.Morsel in Python   │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0672                    │
+│                       ├──────────────────┤          │              │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│                       │ CVE-2026-0865    │          │              │                   │               │ cpython: wsgiref.headers.Headers allows header newline       │
+│                       │                  │          │              │                   │               │ injection in Python                                          │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2026-0865                    │
+├───────────────────────┼──────────────────┼──────────┼──────────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ zlib1g                │ CVE-2023-45853   │ CRITICAL │ will_not_fix │ 1:1.2.13.dfsg-1   │               │ zlib: integer overflow and resultant heap-based buffer       │
+│                       │                  │          │              │                   │               │ overflow in zipOpenNewFileInZip4_6                           │
+│                       │                  │          │              │                   │               │ https://avd.aquasec.com/nvd/cve-2023-45853                   │
+└───────────────────────┴──────────────────┴──────────┴──────────────┴───────────────────┴───────────────┴──────────────────────────────────────────────────────────────┘
