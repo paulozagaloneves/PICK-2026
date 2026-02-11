@@ -70,4 +70,9 @@
     - Distroless Google
     - Comparativo
   - Verificar vulnerabilidade com Trivy
+  - Assinando imagens com cosign
+    - Install cosign
+    - Gerar par de chaves
+    - Assinando imagens de containers
+    - Verificando e validando assinatura
   

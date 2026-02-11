@@ -23,6 +23,11 @@
     - [Distroless Google](#distroless-google)
     - [Comparativo](#comparativo)
   - [Verificar vulnerabilidade com Trivy](#verificar-vulnerabilidade-com-trivy)
+  - [Assinando imagens com cosign](#assinando-imagens-com-cosign)
+    - [Install cosign](#install-cosign)
+    - [Gerar par de chaves](#gerar-par-de-chaves)
+    - [Assinando imagens de containers](#assinando-imagens-de-containers)
+    - [Verificando e validando assinatura](#verificando-e-validando-assinatura)
 
 
 ## Giropops Senhas
@@ -865,3 +870,106 @@ Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
 ``` 
+
+
+## Assinando imagens com cosign
+
+**Cosign** é uma ferramenta open source da sigstore usada para assinar, verificar e armazenar assinaturas de imagens de container. Ela permite garantir a autenticidade e integridade das imagens, ajudando a proteger contra alterações ou ataques.
+
+Assinatura de imagens é o processo de aplicar uma assinatura digital a uma imagem de container. Isso permite que usuários e sistemas verifiquem se a imagem foi criada por uma fonte confiável e se não foi modificada desde a assinatura. Assim, aumenta a segurança no uso e distribuição de containers.
+
+
+[Github](https://github.com/sigstore/cosign)
+[Sigstore.dev](https://www.sigstore.dev/)
+[Installation](https://docs.sigstore.dev/cosign/system_config/installation/)
+
+### Install cosign
+
+```bash
+$ curl -O -L "https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64"
+sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+sudo chmod +x /usr/local/bin/cosign
+$
+$ cosign version                                                                             
+  ______   ______        _______. __    _______ .__   __.
+ /      | /  __  \      /       ||  |  /  _____||  \ |  |
+|  ,----'|  |  |  |    |   (----`|  | |  |  __  |   \|  |
+|  |     |  |  |  |     \   \    |  | |  | |_ | |  . `  |
+|  `----.|  `--'  | .----)   |   |  | |  |__| | |  |\   |
+ \______| \______/  |_______/    |__|  \______| |__| \__|
+cosign: A tool for Container Signing, Verification and Storage in an OCI registry.
+
+GitVersion:    v3.0.4
+GitCommit:     6832fba4928c1ad69400235bbc41212de5006176
+GitTreeState:  clean
+BuildDate:     2026-01-09T21:17:16Z
+GoVersion:     go1.25.5
+Compiler:      gc
+Platform:      linux/amd64
+$
+```
+
+
+Configure Completion
+```bash
+$ cosign completion zsh > "${fpath[1]}/_cosign"
+$ 
+# restart do shell
+$ source ~/.zshrc 
+```
+
+### Gerar par de chaves
+
+```bash
+$ cosign generate-key-pair                     
+Enter password for private key: 
+Enter password for private key again: 
+Private key written to cosign.key
+Public key written to cosign.pub
+$
+```
+
+
+### Assinando imagens de containers
+
+[Signing](https://docs.sigstore.dev/cosign/signing/signing_with_containers/)
+
+
+O **cosign** assina a imagem no Dockerhub, então precisamos primeiro efetuar push da imagem para o DockerHub
+
+```bash
+$ docker image build -t pauloneves/giropops-senhas-assinada:1.0  .
+$ docker push pauloneves/giropops-senhas-assinada:1.0
+```
+
+
+**Assinando**
+
+```bash
+$ cosign sign --key cosign.key pauloneves/giropops-senhas-assinada:1.0
+WARNING: Image reference pauloneves/giropops-senhas-assinada:1.0 uses a tag, not a digest, to identify the image to sign.
+    This can lead you to sign a different image than the intended one. Please use a
+    digest (example.com/ubuntu@sha256:abc123...) rather than tag
+    (example.com/ubuntu:latest) for the input to cosign. The ability to refer to
+    images by tag will be removed in a future release.
+
+Enter password for private key: 
+$
+```
+
+### Verificando e validando assinatura
+
+```bash
+$ cosign verify --key cosign.pub pauloneves/giropops-senhas-assinada:1.0
+
+Verification for index.docker.io/pauloneves/giropops-senhas-assinada:1.0 --
+The following checks were performed on each of these signatures:
+  - The cosign claims were validated
+  - Existence of the claims in the transparency log was verified offline
+  - The signatures were verified against the specified public key
+
+[{"critical":{"identity":{"docker-reference":"index.docker.io/pauloneves/giropops-senhas-assinada:1.0"},"image":{"docker-manifest-digest":"sha256:b33d1df7b9b6c001e944bac796da4a1548ce7660359f3ff01cb0aece98c6e1a3"},"type":"https://sigstore.dev/cosign/sign/v1"},"optional":{}},{"critical":{"identity":{"docker-reference":"index.docker.io/pauloneves/giropops-senhas-assinada:1.0"},"image":{"docker-manifest-digest":"sha256:b33d1df7b9b6c001e944bac796da4a1548ce7660359f3ff01cb0aece98c6e1a3"},"type":"https://sigstore.dev/cosign/sign/v1"},"optional":{}}]
+```
+
+
+
