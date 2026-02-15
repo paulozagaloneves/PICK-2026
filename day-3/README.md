@@ -29,7 +29,6 @@
     - [Assinando imagens de containers](#assinando-imagens-de-containers)
     - [Verificando e validando assinatura](#verificando-e-validando-assinatura)
 
-
 ## Giropops Senhas
 
 ### Clone do projeto
@@ -81,7 +80,6 @@ note: If you believe this is a mistake, please contact your Python installation 
 hint: See PEP 668 for the detailed specification.
 $
 ```
-
 
 Criar o virtual environmento na raiz do seu home.
 
@@ -219,7 +217,6 @@ $
 
 ## Containerizando a aplicação Giropops Senhas
 
-
 ### Build
 
 ```Dockerfile
@@ -250,7 +247,6 @@ hello:1.0                                   fb05d4f6f072        880MB           
 
 ### Run
 
-
 **Criando um container redis**
 
 ```bash
@@ -264,7 +260,6 @@ $ docker container run -d --name redis -p 6379:6379 redis:8.4
 ```bash
 $ docker container run -d --name giropops-senhas -p 5000:5000 -e REDIS_HOST=192.168.1.205 giropops-senhas:1.0
 ```
-
 
 **Verificando Vulnerabilidades**
 
@@ -314,9 +309,7 @@ IMAGE          CREATED             CREATED BY                                   
 <missing>      8 days ago          # debian.sh --arch 'amd64' out/ 'trixie' '@1…   120MB     debuerreotype 0.17
 ```
 
-
 ## Optimizando Imagem
-
 
 ### 2ª versão (versão slim)
 
@@ -337,7 +330,6 @@ CMD ["flask", "run", "--host=0.0.0.0"]
 $ docker image build -t giropops-senhas:2.0 . 
 ```
 
-
 ```bash
 $ docker image ls                            
                                                                                                                                                                                                                                            i Info →   U  In Use
@@ -349,7 +341,6 @@ $
 ```
 
 **Conclusão:** Nesta primeira versão de otimização já reduziu bastante. Reduziu cerca de 90%
-
 
 **Verificando Vulnerabilidades**
 
@@ -447,9 +438,7 @@ What's next:
 
 ```
 
-
 ## Optimizando mais ainda a nossa imagem com Distroless
-
 
 ### Chainguard Wolfi
 
@@ -475,7 +464,6 @@ EXPOSE 5000
 
 ENTRYPOINT ["python", "-m", "flask", "run"]
 ```
-
 
 ```bash
 $ docker image build -t giropops-senhas:4.0 . 
@@ -511,7 +499,6 @@ What's next:
     Include policy results in your quickview by supplying an organization → docker scout quickview giropops-senhas:4.0 --org <organization>
 ```
 
-
 **History**
 
 ```bash
@@ -540,7 +527,6 @@ fc7abfe606f1   About an hour ago   ENTRYPOINT ["python" "-m" "flask" "run"]     
 <missing>      2 days ago          apko                                            35.7MB    python by Chainguard
 ```
 
-
 ### Distroless Google
 
 ```dockerfile
@@ -565,7 +551,6 @@ EXPOSE 5000
 
 ENTRYPOINT ["python", "-m", "flask", "run"]
 ```
-
 
 ```bash
 $ docker image build -t giropops-senhas:5.0 . 
@@ -666,15 +651,13 @@ IMAGE          CREATED         CREATED BY                                      S
 
 ### Comparativo
 
-
-| Aplicacao         | Versao | Tipo             | Size    | Vulnerabilidades        |
-|-------------------|--------|------------------|---------|-------------------------|
-| giropops-senhas   | 1.0    | Standard         | 1.13GB  | 0C  1H  7M  148L        |
-| giropops-senhas   | 2.0    | Multistage       |  136MB  | 0C  0H  1M  21L         |
-| giropops-senhas   | 3.0    | Alpine           | 64.1MB  | 0C  0H  1M  1L          |
-| giropops-senhas   | 4.0    | Wolfi            |   83MB  | 0C  0H  0M  0L          |
-| giropops-senhas   | 5.0    | Google Distroless| 72.2MB  | 0C  0H  0M  0L          |
-
+| Aplicacao       | Versao | Tipo              | Size   | Vulnerabilidades |
+| --------------- | ------ | ----------------- | ------ | ---------------- |
+| giropops-senhas | 1.0    | Standard          | 1.13GB | 0C  1H  7M  148L |
+| giropops-senhas | 2.0    | Multistage        | 136MB  | 0C  0H  1M  21L  |
+| giropops-senhas | 3.0    | Alpine            | 64.1MB | 0C  0H  1M  1L   |
+| giropops-senhas | 4.0    | Wolfi             | 83MB   | 0C  0H  0M  0L   |
+| giropops-senhas | 5.0    | Google Distroless | 72.2MB | 0C  0H  0M  0L   |
 
 ## Verificar vulnerabilidade com Trivy
 
@@ -869,15 +852,15 @@ Report Summary
 Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
-``` 
+```
 
+ 
 
 ## Assinando imagens com cosign
 
 **Cosign** é uma ferramenta open source da sigstore usada para assinar, verificar e armazenar assinaturas de imagens de container. Ela permite garantir a autenticidade e integridade das imagens, ajudando a proteger contra alterações ou ataques.
 
 Assinatura de imagens é o processo de aplicar uma assinatura digital a uma imagem de container. Isso permite que usuários e sistemas verifiquem se a imagem foi criada por uma fonte confiável e se não foi modificada desde a assinatura. Assim, aumenta a segurança no uso e distribuição de containers.
-
 
 - [Github](https://github.com/sigstore/cosign)
 - [Sigstore.dev](https://www.sigstore.dev/)
@@ -909,7 +892,6 @@ Platform:      linux/amd64
 $
 ```
 
-
 Configure Completion
 ```bash
 $ cosign completion zsh > "${fpath[1]}/_cosign"
@@ -929,11 +911,9 @@ Public key written to cosign.pub
 $
 ```
 
-
 ### Assinando imagens de containers
 
 [Signing](https://docs.sigstore.dev/cosign/signing/signing_with_containers/)
-
 
 O **cosign** assina a imagem no Dockerhub, então precisamos primeiro efetuar push da imagem para o DockerHub
 
@@ -941,7 +921,6 @@ O **cosign** assina a imagem no Dockerhub, então precisamos primeiro efetuar pu
 $ docker image build -t pauloneves/giropops-senhas-assinada:1.0  .
 $ docker push pauloneves/giropops-senhas-assinada:1.0
 ```
-
 
 **Assinando**
 
@@ -970,6 +949,3 @@ The following checks were performed on each of these signatures:
 
 [{"critical":{"identity":{"docker-reference":"index.docker.io/pauloneves/giropops-senhas-assinada:1.0"},"image":{"docker-manifest-digest":"sha256:b33d1df7b9b6c001e944bac796da4a1548ce7660359f3ff01cb0aece98c6e1a3"},"type":"https://sigstore.dev/cosign/sign/v1"},"optional":{}},{"critical":{"identity":{"docker-reference":"index.docker.io/pauloneves/giropops-senhas-assinada:1.0"},"image":{"docker-manifest-digest":"sha256:b33d1df7b9b6c001e944bac796da4a1548ce7660359f3ff01cb0aece98c6e1a3"},"type":"https://sigstore.dev/cosign/sign/v1"},"optional":{}}]
 ```
-
-
-
