@@ -1,0 +1,73 @@
+services:
+  giropops-senhas:
+    build: 
+      context: ../giropops-senhas
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - REDIS_HOST=redis
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    networks:
+      - giropops-net
+    volumes:
+      - strigus:/strigus
+    labels:
+        - "io.linuxtips.description=Giropops application service"
+        - "io.linuxtips.version=1.0"
+        - "com.docker.stack.namespace=giropops"      
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      resources:
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+        limits:
+          cpus: '0.5'
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
+    devices:
+      - "/dev/usb:/dev/usb"   # mapeia o dispositivo de leitura de senhas para dentro do container, permitindo que a aplicação acesse o hardware necessário para funcionar
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s
+  redis:
+    image: redis:8.4
+#   command: ["redis-server", "--appendonly", "yes"]     # habilita o modo de persistência do Redis, garantindo que os dados sejam salvos mesmo após reinicializações
+    restart: unless-stopped
+#    ports:
+#      - "6379:6379"    # nao preciso expoer a porta do redis, pois ele só será acessado internamente pelos outros serviços
+    networks:
+      - giropops-net
+    deploy:
+      replicas: 2
+      labels:
+        - "io.linuxtips.description=Redis storage for Giropops application"
+        - "com.docker.stack.namespace=giropops"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  giropops-net:
+    driver: bridge
+volumes:
+  strigus:
