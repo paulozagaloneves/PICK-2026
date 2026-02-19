@@ -75,4 +75,46 @@
     - Gerar par de chaves
     - Assinando imagens de containers
     - Verificando e validando assinatura
+
+**[Day 4 - Volumes](day-4/README.md)**
+   - O que são volumes
+   - Tipos de volumes
+   - Particularidades entre volumes e Containers
+   - Volume do tipo Bind
+   - Listar volumes
+   - Volume do tipo Volume
+
+**[Day 5 - Networks](day-5/README.md)**
   
+**[Day 6 - Docker Compose](day-6/README.md)**
+  - Primeiro Docker Compose
+  - Giropops Senhas no compose
+    - Compose file
+    - Apply compose file
+  - Docker Compose- Comandos Adicionais
+    - Listar stacks docker compose
+    - Obter logs de um serviço
+    - Obter estatisticas dos serviços
+    - Executar um comando dentro de um container
+    - Listar imagens dos serviços
+    - Stop, Start, Restart, Pause e Unpause Services
+  - Volumes
+    - listar volumes
+  - Build de imagem no Compose
+  - Scale - Escalar services
+  - Reservando e Definindo recursos como CPU e memória
+  - Health check
+  - Docker Compose Avançado
+    - Contextos no build
+    - Environment
+    - Volumes
+    - Réplicas
+    - Labels
+    - Update-config
+    - Restart Policy
+    - Attach USD Device
+    - DNS
+    - Network Avançado (Subnet)
+    - Inspect
+
+   

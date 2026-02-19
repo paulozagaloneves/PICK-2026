@@ -1,4 +1,3 @@
-
 # Day 6 - Docker Compose
 
 ## Índice
@@ -34,10 +33,6 @@
     - [DNS](#dns)
     - [Network Avançado (Subnet)](#network-avançado-subnet)
     - [Inspect](#inspect)
-
-
-
-
 
 ## Primeiro Docker Compose
 
@@ -123,7 +118,6 @@ Run 'docker compose COMMAND --help' for more information on a command.
 
 ## Giropops Senhas no compose
 
-
 ### Compose file
 
 **giropops-stack.yaml**
@@ -165,7 +159,6 @@ $ docker compose -f giropops-stack.yaml up -d
  ✔ Container day-6-redis-1           Created                                                                                                                           0.0s
  ✔ Container day-6-giropops-senhas-1 Created
 ```
-
 
 ## Docker Compose- Comandos Adicionais
 
@@ -231,7 +224,6 @@ day-6-giropops-senhas-1   pauloneves/giropops-senhas-assinada   1.0             
 day-6-redis-1             redis                                 8.4                 linux/amd64         4326c43a061b        139MB               2 weeks ago
 ```
 
-
 ### Stop, Start, Restart, Pause e Unpause Services
 
 **Pause**
@@ -243,6 +235,7 @@ $ docker compose -f giropops-stack.yaml pause
  ✔ Container day-6-giropops-senhas-1 Paused 
  ```
 
+
 **Unpause**
 
 ```bash
@@ -251,6 +244,7 @@ $ docker compose -f giropops-stack.yaml unpause
  ✔ Container day-6-giropops-senhas-1 Unpaused                            0.0s
  ✔ Container day-6-redis-1           Unpaused 
  ```
+
 
 **Restart**
 
@@ -279,8 +273,8 @@ $ docker compose -f giropops-stack.yaml start
  ✔ Container day-6-giropops-senhas-1 Started                               0.2s
  ```
 
-## Volumes
 
+## Volumes
 
 ```yaml
 services:
@@ -312,9 +306,7 @@ volumes:
   strigus:
 ```
 
-
 **-p** permite definir o nome da stack (projeto)
-
 
 ```bash
  $ docker compose -p giropops -f giropops-stack.yaml up -d
@@ -338,7 +330,6 @@ local     giropops_strigus
 local     nexus-data
 local     portainer_data
 ```
-
 
 ## Build de imagem no Compose
 
@@ -373,7 +364,6 @@ networks:
 volumes:
   strigus:
 ```
-
 
 ```bash
 $ docker compose -p giropops -f giropops-stack.yaml up -d
@@ -463,9 +453,7 @@ $ docker compose -p giropops -f giropops-stack.yaml up -d
  ✔ Container giropops-giropops-senhas-1 Created                                                                                                                       0.0s
 ```
 
-
 ## Scale - Escalar services
-
 
 ```bash
 $ docker compose -p giropops -f giropops-stack.yaml up -d --scale giropops-senhas=3                                                                                  1 ↵
@@ -510,7 +498,6 @@ volumes:
   strigus:
 ```
 
-
 ```bash
 $ docker compose -p giropops -f giropops-stack.yaml up -d --scale redis=3          
 [+] up 4/4
@@ -520,9 +507,7 @@ $ docker compose -p giropops -f giropops-stack.yaml up -d --scale redis=3
  ✔ Container giropops-giropops-senhas-1 Recreated                   10.1s
 ```
 
-
 ## Reservando e Definindo recursos como CPU e memória
-
 
 **Define que o serviço giropops-senhas depende do redis**
 
@@ -543,7 +528,6 @@ $ docker compose -p giropops -f giropops-stack.yaml up -d --scale redis=3
           cpus: '0.5'
           memory: 256M
 ```
-
 
 ```yaml
 services:
@@ -585,8 +569,6 @@ networks:
 volumes:
   strigus:
 ```
-
-
 
 ```bash
 $ docker inspect giropops-giropops-senhas-1                              
@@ -741,8 +723,6 @@ $ docker inspect giropops-giropops-senhas-1
 ]
 ```
 
-
-
 ## Health check
 
 ```yaml
@@ -753,7 +733,6 @@ $ docker inspect giropops-giropops-senhas-1
       retries: 5
       start_period: 10s
 ```
-
 
 ```yaml
 services:
@@ -802,7 +781,6 @@ volumes:
   strigus:
 ```
 
-
 **Recriar Stack**
 
 ```bash
@@ -818,7 +796,6 @@ CONTAINER ID   IMAGE                           COMMAND                  CREATED 
 c144410d2a1d   giropops-giropops-senhas        "python -m flask run"    16 seconds ago   Up 16 seconds                  0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp                giropops-giropops-senhas-1
 2012c27127e3   redis:8.4                       "docker-entrypoint.s…"   16 seconds ago   Up 16 seconds (healthy)        6379/tcp                                                   giropops-redis-1
 ```
-
 
 ```yaml
 services:
@@ -873,7 +850,6 @@ volumes:
   strigus:
 ```
 
-
 **Recriar Stack**
 
 ```bash
@@ -882,7 +858,6 @@ $ docker compose -p giropops -f giropops-stack.yaml up -d --scale redis=1
  ✔ Container giropops-redis-1           Running                     0.0ss
  ✔ Container giropops-giropops-senhas-1 Recreated 
 ```
-
 
 ```bash
 $ docker container ls                                                    
@@ -899,8 +874,6 @@ CONTAINER ID   IMAGE                           COMMAND                  CREATED 
 75c48609927a   giropops-giropops-senhas        "python -m flask run"    2 minutes ago   Up 2 minutes (unhealthy)       0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp                giropops-giropops-senhas-1
 2012c27127e3   redis:8.4                       "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes (healthy)         6379/tcp                                                   
 ```
-
-
 
 ## Docker Compose Avançado
 
@@ -964,7 +937,6 @@ Define um volume chamado strigus usando o driver local, mas com opções para fa
 
 O parâmetro `update_config` no Docker Compose define como as atualizações de containers devem ocorrer durante um processo de deploy. Ele permite configurar a quantidade de containers atualizados em paralelo (`parallelism`) e o tempo de espera entre cada atualização (`delay`).
 Por exemplo, ao atualizar uma aplicação, você pode controlar para que apenas dois containers sejam atualizados ao mesmo tempo, com um intervalo de 10 segundos entre cada atualização.
-
 
 ```yaml
     update_config:

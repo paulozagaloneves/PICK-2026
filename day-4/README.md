@@ -1,6 +1,5 @@
 # Day 4 - Volumes
 
-
 ## Índice
 
 - [Day 4 - Volumes](#day-4---volumes)
@@ -11,8 +10,6 @@
   - [Volume do tipo Bind](#volume-do-tipo-bind)
   - [Listar volumes](#listar-volumes)
   - [Volume do tipo Volume](#volume-do-tipo-volume)
-
-
 
 ## O que são volumes
 
@@ -30,14 +27,12 @@ Podem ser criados e geridos com comandos como docker volume create, docker volum
 
 São montados nos containeres usando a opção -v ou --mount.
 
-
 Exemplo de utilização:
 ```bash
 $ docker run -v meu_volume:/app/dados imagem
 ```
 
 Assim, tudo o que for guardado em /app/dados dentro do container ficará persistente no volume chamado meu_volume, mesmo que o container seja removido.
-
 
 ## Tipos de volumes
 
@@ -57,28 +52,20 @@ Existem três tipos principais de volumes no Docker:
  - Os dados são voláteis e desaparecem quando o container é parado ou removido.
  - Úteis para dados temporários e sensíveis.
 
-
 Resumo:
 
 - **Volumes**: persistentes, geridos pelo Docker.
 - **Bind mounts**: persistentes, controlados pelo utilizador, dependem do anfitrião.
 - **tmpfs**: voláteis, armazenados em memória.
 
-
 ## Particularidades entre volumes e Containers
 
 - O volume é inicializado quando o container é criado.
-
 - Caso ocorra de já haver dados no diretório em que você está montando como volume, ou seja, se o diretório já existe e está "populado" na imagem base, aqueles dados serão copiados para o volume.
-
 - Um volume pode ser reusado e compartilhado entre containers.
-
 - Alterações em um volume são feitas diretamente no volume.
-
 - Alterações em um volume não irão com a imagem quando você fizer uma cópia ou snapshot de um container.
-
 - Volumes continuam a existir mesmo se você deletar o container
-
 
 ## Volume do tipo Bind
 
@@ -166,6 +153,3 @@ root@452dea0db556:/giropops-senhas# ls
 FUNCIONA
 root@452dea0db556:/giropops-senhas#
 ```
-
-
-
