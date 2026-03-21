@@ -37,7 +37,7 @@
 
 Imagens de container são ficheiros imutáveis que contêm tudo o que é necessário para executar uma aplicação: código, bibliotecas, dependências, variáveis de ambiente e ficheiros de configuração. Funcionam como um modelo para criar containers, garantindo que a aplicação funcione de forma consistente em qualquer ambiente. Cada imagem pode ser composta por várias camadas, optimizando o armazenamento e a partilha entre diferentes containers.
 
-![Imagem de Container](/images/Docker_Image_Layers_01.png)
+![Imagem de Container](/DescomplicandoDocker/images/Docker_Image_Layers_01.png)
 
 ## O meu primeiro Dockerfile
 

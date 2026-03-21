@@ -75,7 +75,7 @@ Isto garante que múltiplos containers possam coexistir no mesmo host sem interf
 
 ## Containers vs VMs
 
-![VM vs Container](/images/AppsConatinersVSAppsVMs.png)
+![VM vs Container](/DescomplicandoDocker/images/AppsConatinersVSAppsVMs.png)
 
 **Containers:**
 
@@ -108,7 +108,7 @@ Isto garante que múltiplos containers possam coexistir no mesmo host sem interf
 Docker é uma plataforma open-source que permite criar, empacotar, distribuição e execução de aplicações em containers. 
 Fornece um conjunto de ferramentas e uma interface padronizada que torna os containers mais acessíveis e fáceis de utilizar.
 
-![Docker Workflow](/images/WorkflowDocker.png)
+![Docker Workflow](/DescomplicandoDocker/images/WorkflowDocker.png)
 
 **Componentes principais:**
 - **Docker Engine**: Motor que executa e gere os containers
@@ -512,12 +512,12 @@ O Copy-on-Write (CoW) é uma estratégia de otimização em computação que adi
 
 O **Docker** utiliza CoW para gerir camadas de imagens; múltiplos containers partilham a mesma imagem base, gravando apenas as suas alterações individuais numa camada fina no topo.
 
-![Docker Image Layers](/images/Docker_Image_Layers.png)
+![Docker Image Layers](/DescomplicandoDocker//images/Docker_Image_Layers.png)
 
 
 ## Docker Internals
 
-![Docker Internals](/images/Docker_Internals.png)
+![Docker Internals](/DescomplicandoDocker//images/Docker_Internals.png)
 
 ## Instalando o Docker Engine no Linux
 
