@@ -1,6 +1,8 @@
 # PICK-2026
 
-**[Day 1 - Containers](day-1/README.md)**
+## Descomplicando Docker
+
+**[Day 1 - Containers](DescomplicandoDocker/day-1/README.md)**
 - O que é um container linux
 - Containers vs VMs
 - O que é o Docker
@@ -20,7 +22,7 @@
 - Visualizando e inspecionando imagens e containers
 - Criando um container Dettached e o Docker exec
 
-**[Day 2 - Imagens do Container](day-2/README.md)**
+**[Day 2 - Imagens do Container](DescomplicandoDocker/day-2/README.md)**
   - O que são imagens de container ?
   - O meu primeiro Dockerfile
 	- Exemplo de Dockerfile com Ubuntu e Nginx
@@ -50,7 +52,7 @@
   - Glossário Dockerfile
   - Timeline: Criação de uma Imagem Docker
 
-**[Day 3 - Otimizando Imagens](day-3/README.md)**
+**[Day 3 - Otimizando Imagens](DescomplicandoDocker/day-3/README.md)**
   - Giropops Senhas
     - Clone do projeto
     - Instalar o pip
@@ -76,7 +78,7 @@
     - Assinando imagens de containers
     - Verificando e validando assinatura
 
-**[Day 4 - Volumes](day-4/README.md)**
+**[Day 4 - Volumes](DescomplicandoDocker/day-4/README.md)**
    - O que são volumes
    - Tipos de volumes
    - Particularidades entre volumes e Containers
@@ -84,9 +86,9 @@
    - Listar volumes
    - Volume do tipo Volume
 
-**[Day 5 - Networks](day-5/README.md)**
+**[Day 5 - Networks](DescomplicandoDocker/day-5/README.md)**
   
-**[Day 6 - Docker Compose](day-6/README.md)**
+**[Day 6 - Docker Compose](DescomplicandoDocker/day-6/README.md)**
   - Primeiro Docker Compose
   - Giropops Senhas no compose
     - Compose file
@@ -117,4 +119,6 @@
     - Network Avançado (Subnet)
     - Inspect
 
-   
+   ## Descomplicando Kubernetes
+
+   **[Day 1 - Containers](DescomplicandoKubernetes/day-1/README.md)**
